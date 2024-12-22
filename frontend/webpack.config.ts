@@ -62,7 +62,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
     },
     plugins: getPlugins(configOptions),
     devServer: getDevServer(configOptions),
-    module: {rules: getRules(configOptions)},
+    module: {rules: getRules()},
     devtool: isDev && 'inline-source-map',
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
@@ -123,7 +123,7 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
 
   return plugins;
 };
-const getRules = (configOptions: ConfigOptions): ModuleOptions['rules'] => {
+const getRules = (): ModuleOptions['rules'] => {
   const babelLoader: RuleSetRule = {
     test: /\.tsx?$/,
     exclude: /node_modules/,
@@ -135,6 +135,7 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions['rules'] => {
           '@babel/preset-typescript',
           ['@babel/preset-react', {runtime: 'automatic'}],
         ],
+        sourceMaps: true,
       },
     },
   };
@@ -148,20 +149,18 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions['rules'] => {
     use: [{loader: '@svgr/webpack', options: {icon: true}}],
   };
 
-  const cssModuleLoader: RuleSetRule = {
-    loader: 'css-loader',
+  const postcssLoader = {
+    loader: 'postcss-loader',
     options: {
-      modules: {
-        localIdentName: configOptions.isDev
-          ? '[path][name]__[local]--[hash:base64:5]'
-          : '[hash:base64:16]',
+      postcssOptions: {
+        plugins: [require('tailwindcss'), require('autoprefixer')],
       },
     },
   };
 
   const cssLoaders: RuleSetRule = {
     test: /\.css$/i,
-    use: [MiniCssExtractPlugin.loader, cssModuleLoader],
+    use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader],
   };
 
   return [cssLoaders, assetLoader, svgrLoader, babelLoader];
@@ -169,7 +168,7 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions['rules'] => {
 const getDevServer = (configOptions: ConfigOptions): DevServerConfiguration => {
   const devServer: DevServerConfiguration = {
     port: configOptions.port ?? '3000',
-    open: true,
+    open: false,
     historyApiFallback: true,
     hot: configOptions.isDev,
     client: {
