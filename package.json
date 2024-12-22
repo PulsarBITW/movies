@@ -1,0 +1,13 @@
+{
+  "name": "root",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "9.1.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
