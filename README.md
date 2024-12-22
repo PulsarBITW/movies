@@ -1,15 +1,6 @@
 # Movies
 Application with a collection of films
 
-
-start backend --->
-cd ./backend/cmd
-go run .
-
-start frontend
-cd ./frontend
-npm run start
-
 ## Start app
 ### Frontend
 1. cd ./frontend
