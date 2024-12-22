@@ -1,18 +1,14 @@
-import path from "path";
-import webpack, {
-  EnvironmentPlugin,
-  ModuleOptions,
-  RuleSetRule,
-} from "webpack";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import path from 'path';
+import webpack, {EnvironmentPlugin, ModuleOptions, RuleSetRule} from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import type {Configuration as DevServerConfiguration} from 'webpack-dev-server';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 type EnvironmentVariables = {
   mode: ConfigMode;
-  port: DevServerConfiguration["port"];
+  port: DevServerConfiguration['port'];
   paths: ConfigPaths;
   BASE_URL?: string;
   showAnalyzer?: boolean;
@@ -25,7 +21,7 @@ interface ConfigPaths {
   src: string;
   favicon: string;
 }
-type ConfigMode = webpack.Configuration["mode"];
+type ConfigMode = webpack.Configuration['mode'];
 
 interface ConfigOptions extends EnvironmentVariables {
   isDev: boolean;
@@ -34,22 +30,22 @@ interface ConfigOptions extends EnvironmentVariables {
 }
 
 export default (env: EnvironmentVariables): webpack.Configuration => {
-  const isDev = env.mode === "development";
-  const isProd = env.mode === "production";
+  const isDev = env.mode === 'development';
+  const isProd = env.mode === 'production';
 
   const configPaths: ConfigPaths = {
     public: path.resolve(),
-    indexHtml: path.resolve(__dirname, "public", "index.html"),
-    src: path.resolve(__dirname, "src"),
-    entry: path.resolve(__dirname, "src", "index.tsx"),
-    output: path.resolve(__dirname, "build"),
-    favicon: path.resolve(__dirname, "public", "Favicon16.ico"),
+    indexHtml: path.resolve(__dirname, 'public', 'index.html'),
+    src: path.resolve(__dirname, 'src'),
+    entry: path.resolve(__dirname, 'src', 'index.ts'),
+    output: path.resolve(__dirname, 'build'),
+    favicon: path.resolve(__dirname, 'public', 'Favicon.ico'),
   };
 
   const configOptions: ConfigOptions = {
     ...env,
-    mode: env.mode ?? "development",
-    port: env.port ?? "7045",
+    mode: env.mode ?? 'development',
+    port: env.port ?? '7045',
     showAnalyzer: env.showAnalyzer ? env.showAnalyzer : false,
     paths: configPaths,
     isDev,
@@ -57,21 +53,27 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
   };
 
   const webpackConfig: webpack.Configuration = {
-    mode: configOptions.mode ?? "development",
+    mode: configOptions.mode ?? 'development',
     entry: configOptions.paths.entry,
     output: {
       path: configOptions.paths.output,
-      filename: "[name].[contenthash].js",
+      filename: '[name].[contenthash].js',
       clean: true,
     },
     plugins: getPlugins(configOptions),
     devServer: getDevServer(configOptions),
-    module: { rules: getRules(configOptions) },
-    devtool: isDev && "inline-source-map",
+    module: {rules: getRules(configOptions)},
+    devtool: isDev && 'inline-source-map',
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
+      extensions: ['.tsx', '.ts', '.js'],
       alias: {
-        "@": configOptions.paths.src,
+        '@app': path.resolve(__dirname, './src/app/'),
+        '@pages': path.resolve(__dirname, './src/pages/'),
+        '@features': path.resolve(__dirname, './src/features/'),
+        '@entities': path.resolve(__dirname, './src/entities/'),
+        '@shared': path.resolve(__dirname, './src/shared/'),
+        '@widgets': path.resolve(__dirname, './src/widgets/'),
+        '@assets': path.resolve(__dirname, './src/assets/'),
       },
     },
   };
@@ -79,10 +81,8 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
   return webpackConfig;
 };
 
-const getPlugins = (
-  configOptions: ConfigOptions
-): webpack.Configuration["plugins"] => {
-  const plugins: webpack.Configuration["plugins"] = [];
+const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugins'] => {
+  const plugins: webpack.Configuration['plugins'] = [];
 
   const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: configOptions.paths.indexHtml,
@@ -92,8 +92,8 @@ const getPlugins = (
   const environmentPlugin = new EnvironmentPlugin();
 
   const miniCssExtractPlugin = new MiniCssExtractPlugin({
-    filename: "css/[name].[contenthash].css",
-    chunkFilename: "css/[name].[contenthash].css",
+    filename: 'css/[name].[contenthash].css',
+    chunkFilename: 'css/[name].[contenthash].css',
   });
 
   plugins.push(htmlWebpackPlugin);
@@ -116,24 +116,24 @@ const getPlugins = (
     // });
 
     plugins.push(
-      reactRefreshWebpackPlugin
+      reactRefreshWebpackPlugin,
       // eslintPlugin
     );
   }
 
   return plugins;
 };
-const getRules = (configOptions: ConfigOptions): ModuleOptions["rules"] => {
+const getRules = (configOptions: ConfigOptions): ModuleOptions['rules'] => {
   const babelLoader: RuleSetRule = {
     test: /\.tsx?$/,
     exclude: /node_modules/,
     use: {
-      loader: "babel-loader",
+      loader: 'babel-loader',
       options: {
         presets: [
-          "@babel/preset-env",
-          "@babel/preset-typescript",
-          ["@babel/preset-react", { runtime: "automatic" }],
+          '@babel/preset-env',
+          '@babel/preset-typescript',
+          ['@babel/preset-react', {runtime: 'automatic'}],
         ],
       },
     },
@@ -141,20 +141,20 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions["rules"] => {
 
   const assetLoader: RuleSetRule = {
     test: /\.(png|jpg|jpeg|gif)$/i,
-    type: "asset/resource",
+    type: 'asset/resource',
   };
   const svgrLoader: RuleSetRule = {
     test: /\.svg$/i,
-    use: [{ loader: "@svgr/webpack", options: { icon: true } }],
+    use: [{loader: '@svgr/webpack', options: {icon: true}}],
   };
 
   const cssModuleLoader: RuleSetRule = {
-    loader: "css-loader",
+    loader: 'css-loader',
     options: {
       modules: {
         localIdentName: configOptions.isDev
-          ? "[path][name]__[local]--[hash:base64:5]"
-          : "[hash:base64:16]",
+          ? '[path][name]__[local]--[hash:base64:5]'
+          : '[hash:base64:16]',
       },
     },
   };
@@ -168,7 +168,7 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions["rules"] => {
 };
 const getDevServer = (configOptions: ConfigOptions): DevServerConfiguration => {
   const devServer: DevServerConfiguration = {
-    port: configOptions.port ?? "3000",
+    port: configOptions.port ?? '3000',
     open: true,
     historyApiFallback: true,
     hot: configOptions.isDev,

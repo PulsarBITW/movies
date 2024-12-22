@@ -17,7 +17,7 @@ func CreateRouter(appConfig *config.Config) *Router {
     ginEngine := gin.Default()
 
     // settings
-	err := ginEngine.SetTrustedProxies(appConfig.Server.TrustedProxies)
+	err := ginEngine.SetTrustedProxies(nil)
 	if err != nil {
 		panic("При установки доверенных прокси произошла ошибка: " + err.Error())
 	}
@@ -32,9 +32,10 @@ func CreateRouter(appConfig *config.Config) *Router {
 	}))
     ginEngine.Use(gin.Logger())
 	ginEngine.Use(gin.Recovery())
+	ginEngine.Use(middlewares.LoggerIP())
     ginEngine.Use(middlewares.ErrorHandler()) 
 
-    // handlers
+    // api handlers
     ginEngine.GET("/api/movies", handlers.GetMovieList)
 
    

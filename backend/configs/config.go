@@ -13,7 +13,7 @@ type ServerConfig struct {
 func GetConfig() *Config {
 	var (
 		ServerPort     = ":8080"
-		TrustedProxies = []string{"127.0.0.1", "72.71.121.156"}
+		TrustedProxies = []string{"127.0.0.1"}
 		AllowOrigins   = []string{"http://localhost:7045"}
 	)
 
