@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         background: 'var(--background)',
+        'header-color': 'var(--header-color)',
         text: 'var(--text)',
         primary: 'var(--primary)',
         secondary: 'var(--secondary)',
