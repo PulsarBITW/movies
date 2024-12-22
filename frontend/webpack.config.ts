@@ -49,7 +49,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
   const configOptions: ConfigOptions = {
     ...env,
     mode: env.mode ?? "development",
-    port: env.port ?? "3000",
+    port: env.port ?? "7045",
     showAnalyzer: env.showAnalyzer ? env.showAnalyzer : false,
     paths: configPaths,
     isDev,
@@ -130,7 +130,6 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions["rules"] => {
     use: {
       loader: "babel-loader",
       options: {
-        // Если не babel-loader тогда настройки в config
         presets: [
           "@babel/preset-env",
           "@babel/preset-typescript",
@@ -146,12 +145,9 @@ const getRules = (configOptions: ConfigOptions): ModuleOptions["rules"] => {
   };
   const svgrLoader: RuleSetRule = {
     test: /\.svg$/i,
-    use: [
-      { loader: "@svgr/webpack", options: { icon: true } }, // icon true позволяет работать с svg как с иконками и менять размер содержимого а не контейнера, <AwardsSvg width={250} height={250} />, - даст содержимому 250 250
-    ],
+    use: [{ loader: "@svgr/webpack", options: { icon: true } }],
   };
 
-  // css
   const cssModuleLoader: RuleSetRule = {
     loader: "css-loader",
     options: {
@@ -177,7 +173,7 @@ const getDevServer = (configOptions: ConfigOptions): DevServerConfiguration => {
     historyApiFallback: true,
     hot: configOptions.isDev,
     client: {
-      progress: true, // percent in browser console
+      progress: true,
       overlay: {
         errors: true,
         warnings: true,

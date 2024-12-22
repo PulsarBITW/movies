@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve --env mode=development",
+    "build:dev": "webpack --env mode=development",
+    "build:prod": "webpack --env mode=production"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx,json}": [
@@ -42,7 +44,6 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "eslint-webpack-plugin": "^4.2.0",
-    "gh-pages": "^6.1.1",
     "html-webpack-plugin": "^5.6.0",
     "lint-staged": "15.2.7",
     "mini-css-extract-plugin": "^2.9.0",
