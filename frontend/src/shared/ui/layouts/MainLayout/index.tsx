@@ -1,15 +1,16 @@
 import {Outlet} from 'react-router-dom';
+
 import {Header} from './Header';
-import {OutletWrapper} from './OutletWrapper';
+import {Main} from './Main';
 import {Footer} from './Footer';
 
 export const MainLayout = () => {
   return (
-    <div className="flex flex-col justify-center gap-4">
+    <div className="grid-rows-layout grid min-h-screen gap-6">
       <Header />
-      <OutletWrapper>
+      <Main>
         <Outlet />
-      </OutletWrapper>
+      </Main>
       <Footer />
     </div>
   );
