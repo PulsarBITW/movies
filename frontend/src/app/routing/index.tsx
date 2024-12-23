@@ -1,8 +1,8 @@
 import {Route, Routes} from 'react-router-dom';
-import {MainLayout} from '@shared/ui';
+import {MainLayout, Papper} from '@shared/ui';
 
 const Page = () => {
-  return <div>Page</div>;
+  return <Papper className="h-[2000px] w-full">Page</Papper>;
 };
 
 const AppRouting = () => (
