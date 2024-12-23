@@ -1,7 +1,7 @@
 export const Header = () => {
   return (
-    <header className="w-full min-h-[60px] flex items-center gap-2 bg-header-color sticky top-0 shadow">
-      <div className="max-w-[1200px] container mx-auto text-text">Header</div>
+    <header className="sticky top-0 flex min-h-[60px] w-full items-center gap-2 bg-header-color shadow">
+      <div className="container mx-auto max-w-[1200px] text-text">Header</div>
     </header>
   );
 };

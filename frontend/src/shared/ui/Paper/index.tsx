@@ -7,5 +7,5 @@ type PapperProps = {
 };
 
 export const Papper = ({children, className}: PapperProps) => {
-  return <div className={cn('bg-foreground rounded-lg px-4 py-3', className)}>{children}</div>;
+  return <div className={cn('rounded-lg bg-foreground px-4 py-3', className)}>{children}</div>;
 };
