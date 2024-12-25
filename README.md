@@ -14,5 +14,10 @@ Application with a collection of films
 ### Frontend
 1. **API function names**
 
-Basic functions are created in the shared/api folder, these functions have the base prefix
+Basic functions are created in the shared/api folder, these functions have the base prefix.
 When creating a wrapper for these functions, the base prefix is ​​removed
+
+2. **Stores synchronized with localStorage**
+
+Add a prefix "Ls" to the names of stores that are synchronized with localStorage.  
+example: $LsTheme
