@@ -7,7 +7,7 @@ type GroupProps = {
 
 export const Group = ({title, children}: GroupProps) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-4">
       {title && <h2 className="font-bold text-text-primary">{title}</h2>}
       {children}
     </div>

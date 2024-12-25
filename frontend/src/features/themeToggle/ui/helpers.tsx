@@ -1,15 +1,15 @@
 import {ReactElement} from 'react';
 import {Moon, Sun} from 'lucide-react';
 
-import {ThemeEnum} from '../enums';
+import {ThemeEnum} from '@shared/constants';
 
 export const renderThemeIcon = (currentTheme: ThemeEnum): ReactElement => {
   const className = 'stroke-text-primary';
 
   switch (currentTheme) {
-    case ThemeEnum.dark:
+    case ThemeEnum.Dark:
       return <Moon className={className} />;
-    case ThemeEnum.light:
+    case ThemeEnum.Light:
       return <Sun className={className} />;
     default:
       return <Sun className={className} />;

@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 import {Button} from '@shared/ui';
-import {ThemeEnum} from '../enums';
+import {ThemeEnum} from '@shared/constants';
 import {getCurrentTheme} from '../utils';
 import {renderThemeIcon} from './helpers';
 
@@ -9,12 +9,12 @@ export const ThemeToggler = () => {
   const [currentTheme, setCurrentTheme] = useState<ThemeEnum>(getCurrentTheme);
 
   const toggleTheme = () => {
-    if (currentTheme === ThemeEnum.dark) {
+    if (currentTheme === ThemeEnum.Dark) {
       document.documentElement.classList.remove('dark');
-      setCurrentTheme(ThemeEnum.light);
+      setCurrentTheme(ThemeEnum.Light);
     } else {
       document.documentElement.classList.add('dark');
-      setCurrentTheme(ThemeEnum.dark);
+      setCurrentTheme(ThemeEnum.Dark);
     }
   };
 

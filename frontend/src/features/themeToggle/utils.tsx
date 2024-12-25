@@ -1,9 +1,9 @@
-import {ThemeEnum} from './enums';
+import {ThemeEnum} from '@shared/constants';
 
 export const checkIsDarkTheme = () => {
   return document.documentElement.classList.contains('dark');
 };
 
 export const getCurrentTheme = () => {
-  return checkIsDarkTheme() ? ThemeEnum.dark : ThemeEnum.light;
+  return checkIsDarkTheme() ? ThemeEnum.Dark : ThemeEnum.Light;
 };
