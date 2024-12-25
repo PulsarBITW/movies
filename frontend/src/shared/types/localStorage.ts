@@ -10,5 +10,5 @@ type AppLatestView = {
 export type AppLatestViews = AppLatestView[];
 export type AppLastPage = string;
 export type AppTheme = ThemeEnum;
-export type AppAuth = unknown;
-export type AppUser = unknown;
+
+export type LocalStorageValuesUnion = AppLatestViews | AppLastPage | AppTheme;
