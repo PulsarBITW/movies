@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 
+import {appStarted} from '@shared/effectorRootEntities';
 import AppRouting from './routing';
 import './global.css';
 
@@ -11,6 +12,7 @@ if (!rootHtml) {
 } else {
   const reactRoot = ReactDOM.createRoot(rootHtml);
 
+  appStarted();
   reactRoot.render(
     <BrowserRouter>
       <AppRouting />

@@ -1,21 +1,16 @@
-import {useState} from 'react';
+import {useUnit} from 'effector-react';
 
 import {Button} from '@shared/ui';
 import {ThemeEnum} from '@shared/constants';
-import {getCurrentTheme} from '../utils';
+import {$lsTheme, themeChanged} from '../model';
 import {renderThemeIcon} from './helpers';
 
 export const ThemeToggler = () => {
-  const [currentTheme, setCurrentTheme] = useState<ThemeEnum>(getCurrentTheme);
+  const [theme, setTheme] = useUnit([$lsTheme, themeChanged]);
 
   const toggleTheme = () => {
-    if (currentTheme === ThemeEnum.Dark) {
-      document.documentElement.classList.remove('dark');
-      setCurrentTheme(ThemeEnum.Light);
-    } else {
-      document.documentElement.classList.add('dark');
-      setCurrentTheme(ThemeEnum.Dark);
-    }
+    if (theme === ThemeEnum.Dark) setTheme(ThemeEnum.Light);
+    else setTheme(ThemeEnum.Dark);
   };
 
   return (
@@ -24,7 +19,7 @@ export const ThemeToggler = () => {
       size="icon"
       onClick={toggleTheme}
     >
-      {renderThemeIcon(currentTheme)}
+      {renderThemeIcon(theme)}
     </Button>
   );
 };
