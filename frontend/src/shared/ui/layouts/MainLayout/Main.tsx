@@ -1,5 +1,6 @@
 import {ReactNode} from 'react';
-import cn from 'classnames';
+
+import {cn} from '@shared/lib/utils';
 
 type MainProps = {
   children: ReactNode;

@@ -1,28 +1,23 @@
 import {Route, Routes} from 'react-router-dom';
-import {MainLayout, Papper} from '@shared/ui';
 
-const Page = () => {
-  return (
-    <Papper className="w-full">
-      <div className="flex flex-col gap-2">
-        <div className="text-text-primary">primary primary primary primary</div>
-        <div className="text-text-secondary">secondary secondary secondary</div>
-        <div className="text-text-muted">muted muted muted muted muted</div>
-      </div>
-    </Papper>
-  );
-};
+import {MainLayout} from '@shared/ui';
+import {ThemePage} from '@pages/themePage';
 
 const AppRouting = () => (
   <Routes>
     <Route element={<MainLayout />}>
-      <Route index element={<Page />} />
-      <Route path="/top-views" element={<Page />} />
+      <Route index element={<MockPage title="Main" />} />
+      <Route path="/top-views" element={<MockPage title="Top Views" />} />
+      <Route path="/theme-page" element={<ThemePage />} />
     </Route>
 
-    <Route path="/auth" element={<Page />} />
-    <Route path="*" element={<div>Not found</div>} />
+    <Route path="/auth" element={<MockPage title="Auth" />} />
+    <Route path="*" element={<div className="bg-destructive">Not found</div>} />
   </Routes>
 );
+
+const MockPage = ({title}: {title: string}) => {
+  return <div className='gap-4" flex w-full flex-col text-text-primary'>{title}</div>;
+};
 
 export default AppRouting;

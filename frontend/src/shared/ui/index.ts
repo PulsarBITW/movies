@@ -1,2 +1,4 @@
 export * from './layouts';
-export * from './Paper';
+export * from './papper';
+export * from './button';
+export * from './links';
