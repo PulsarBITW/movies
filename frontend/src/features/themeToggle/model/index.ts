@@ -18,5 +18,5 @@ export const applyThemeFx = themeToggleDomain.createEffect({
   handler: ({value}: Done<ThemeEnum>) => applyTheme(value),
 });
 
-export const $lsTheme = themeToggleDomain.createStore<AppTheme>(lsThemeConfig.initialValue);
+export const $themeLs = themeToggleDomain.createStore<AppTheme>(lsThemeConfig.initialValue);
 export const themeChanged = themeToggleDomain.createEvent<ThemeEnum>('themeChanged');

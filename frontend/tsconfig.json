@@ -20,19 +20,12 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@assets": ["src/assets"],
       "@assets/*": ["src/assets/*"],
-      "@app": ["src/app"],
       "@app/*": ["src/app/*"],
-      "@pages": ["./src/pages"],
       "@pages/*": ["./src/pages/*"],
-      "@features": ["src/features"],
       "@features/*": ["src/features/*"],
-      "@entities": ["src/entities"],
       "@entities/*": ["src/entities/*"],
-      "@widgets": ["src/widgets"],
       "@widgets/*": ["src/widgets/*"],
-      "@shared": ["src/shared"],
       "@shared/*": ["src/shared/*"]
     }
   },

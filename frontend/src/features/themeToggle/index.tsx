@@ -1,4 +1,4 @@
 import './model/init';
 
-export {$lsTheme, themeChanged} from './model';
+export {$themeLs, themeChanged} from './model';
 export {ThemeToggler} from './ui';

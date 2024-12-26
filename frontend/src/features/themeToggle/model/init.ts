@@ -3,12 +3,12 @@ import {persist} from 'effector-storage/local';
 
 import {appStarted} from '@shared/effectorRootEntities';
 import {lsThemeConfig} from './constants';
-import {$lsTheme, applyThemeFx, initThemeFx, themeChanged} from '.';
+import {$themeLs, applyThemeFx, initThemeFx, themeChanged} from '.';
 
-$lsTheme.on(initThemeFx.doneData, (_, theme) => theme);
+$themeLs.on(initThemeFx.doneData, (_, theme) => theme).on(themeChanged, (_, theme) => theme);
 
 persist({
-  store: $lsTheme,
+  store: $themeLs,
   key: lsThemeConfig.key,
   done: applyThemeFx,
 });
@@ -20,6 +20,6 @@ sample({
 });
 
 sample({
-  clock: themeChanged,
-  target: $lsTheme,
+  clock: initThemeFx.doneData,
+  target: $themeLs,
 });

@@ -5,6 +5,9 @@ import type {Configuration as DevServerConfiguration} from 'webpack-dev-server';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+// import ESLintPlugin from 'eslint-webpack-plugin';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 type EnvironmentVariables = {
   mode: ConfigMode;
@@ -109,7 +112,7 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
     const reactRefreshWebpackPlugin = new ReactRefreshWebpackPlugin();
     // const eslintPlugin = new ESLintPlugin({
     //   context: configOptions.paths.src,
-    //   extensions: ["js", "jsx", "ts", "tsx", "json"],
+    //   extensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
     //   emitError: true,
     //   emitWarning: true,
     //   failOnError: true,
@@ -123,6 +126,7 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
 
   return plugins;
 };
+
 const getRules = (): ModuleOptions['rules'] => {
   const babelLoader: RuleSetRule = {
     test: /\.tsx?$/,
@@ -153,7 +157,7 @@ const getRules = (): ModuleOptions['rules'] => {
     loader: 'postcss-loader',
     options: {
       postcssOptions: {
-        plugins: [require('tailwindcss'), require('autoprefixer')],
+        plugins: [tailwindcss, autoprefixer],
       },
     },
   };
