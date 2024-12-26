@@ -1,11 +1,11 @@
 import path from 'path';
 import webpack, {EnvironmentPlugin, ModuleOptions, RuleSetRule} from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type {Configuration as DevServerConfiguration} from 'webpack-dev-server';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-// import ESLintPlugin from 'eslint-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
@@ -110,18 +110,17 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
 
   if (configOptions.isDev) {
     const reactRefreshWebpackPlugin = new ReactRefreshWebpackPlugin();
-    // const eslintPlugin = new ESLintPlugin({
-    //   context: configOptions.paths.src,
-    //   extensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
-    //   emitError: true,
-    //   emitWarning: true,
-    //   failOnError: true,
-    // });
+    const eslintPlugin = new ESLintPlugin({
+      context: configOptions.paths.src,
+      extensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
+      overrideConfigFile: path.resolve(__dirname, 'eslint.config.mjs'),
+      configType: 'flat',
+      emitError: true,
+      emitWarning: true,
+      failOnError: true,
+    });
 
-    plugins.push(
-      reactRefreshWebpackPlugin,
-      // eslintPlugin
-    );
+    plugins.push(reactRefreshWebpackPlugin, eslintPlugin);
   }
 
   return plugins;
