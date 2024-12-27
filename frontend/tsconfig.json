@@ -26,7 +26,8 @@
       "@features/*": ["src/features/*"],
       "@entities/*": ["src/entities/*"],
       "@widgets/*": ["src/widgets/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/shared/*"],
+      "@layouts/*": ["src/layouts/*"]
     }
   },
   "ts-node": {

@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 
-import {MainLayout} from '@shared/ui';
+import {MainLayout} from '@layouts/MainLayout';
 import {ThemePage} from '@pages/themePage';
 
 const AppRouting = () => (

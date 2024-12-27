@@ -76,6 +76,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
         '@entities': path.resolve(__dirname, './src/entities/'),
         '@shared': path.resolve(__dirname, './src/shared/'),
         '@widgets': path.resolve(__dirname, './src/widgets/'),
+        '@layouts': path.resolve(__dirname, './src/layouts/'),
         '@assets': path.resolve(__dirname, './src/assets/'),
       },
     },
