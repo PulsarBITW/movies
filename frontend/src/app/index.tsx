@@ -3,7 +3,7 @@ import {BrowserRouter} from 'react-router-dom';
 
 import {appStarted} from '@shared/effectorRootEntities';
 import AppRouting from './routing';
-import './global.css';
+import './initModules';
 
 const rootHtml = document.getElementById('root');
 
