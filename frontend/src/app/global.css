@@ -10,6 +10,8 @@
 
 :root {
   --color-primary: var(--color-purple-800);
+  --color-primary-light: var(--color-purple-300);
+
   --color-purple-50: #f5f4fe;
   --color-purple-100: #edebfc;
   --color-purple-200: #dedafa;
@@ -22,8 +24,11 @@
   --color-purple-900: #492a88;
 
   --color-secondary: var(--color-purple-600);
+  --color-secondary-light: var(--color-purple-200);
 
-  --color-success: var(--color-success-500);
+  --color-success: var(--color-success-600);
+  --color-success-light: var(--color-success-200);
+
   --color-success-50: #f0fdf5;
   --color-success-100: #dcfce8;
   --color-success-200: #bbf7d1;
@@ -36,6 +41,8 @@
   --color-success-900: #14532b;
 
   --color-destructive: var(--color-destructive-600);
+  --color-destructive-light: var(--color-destructive-200);
+
   --color-destructive-50: #fef2f2;
   --color-destructive-100: #fee2e2;
   --color-destructive-200: #fecaca;
@@ -58,7 +65,7 @@
   --color-btn-text-outline: var(--color-text-primary);
   --btn-hovered-bg-primary: var(--color-purple-900);
   --btn-hovered-bg-secondary: var(--color-purple-700);
-  --btn-hovered-bg-success: var(--color-success-600);
+  --btn-hovered-bg-success: var(--color-success-700);
   --btn-hovered-bg-destructive: var(--color-destructive-700);
 
   --color-hovered-text-link: var(--color-success-800);
