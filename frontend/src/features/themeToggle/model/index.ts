@@ -38,8 +38,6 @@ function createThemeModel(domain: Domain) {
   const initTheme = (themeValue: ThemeEnum) => {
     localStorage.setItem(LocalStorageKeys.App_theme, JSON.stringify(themeValue));
     applyTheme(themeValue);
-
-    return themeValue;
   };
 
   //
