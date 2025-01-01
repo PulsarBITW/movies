@@ -24,20 +24,31 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-10 flex min-h-[60px] w-full items-center gap-2 bg-header shadow">
       <div className="container mx-auto flex max-w-[1200px] items-center justify-between gap-2 px-2 text-text-primary lg:px-0">
-        {isBelowTablet && <NavSheet isAuth={isAuth} toggleAuth={toggleAuth} />}
+        {isBelowTablet ? (
+          <>
+            <NavSheet isAuth={isAuth} toggleAuth={toggleAuth} />
 
-        <Link to="/" className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold">Movies</h1>
-        </Link>
-
-        <div className="flex gap-2">
-          {isBelowTablet ? (
             <Button variant="ghost" className="text-base [&_svg]:size-5">
               <Search />
               Search
             </Button>
-          ) : (
-            <>
+
+            <div className="flex gap-2">
+              <ThemeToggler />
+              <Button asChild size="icon">
+                <Link to="/auth">
+                  <LogIn />
+                </Link>
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to="/" className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold">Movies</h1>
+            </Link>
+
+            <div className="flex gap-2">
               <NavMenu
                 linkList={filterNavLinkList(primaryNavLinkList, isAuth)}
                 triggerContent="Catalog"
@@ -51,24 +62,16 @@ export const Header = () => {
                 triggerContent={<MoreHorizontal />}
                 skipIndicator
               />
-            </>
-          )}
-        </div>
+            </div>
 
-        <div className="flex gap-2">
-          <ThemeToggler />
-          {isBelowTablet ? (
-            <Button asChild size="icon">
-              <Link to="/auth">
-                <LogIn />
-              </Link>
-            </Button>
-          ) : (
-            <Button>
-              <Link to="/auth">Login</Link>
-            </Button>
-          )}
-        </div>
+            <div className="flex gap-2">
+              <ThemeToggler />
+              <Button>
+                <Link to="/auth">Login</Link>
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </header>
   );
