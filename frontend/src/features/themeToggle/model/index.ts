@@ -1,16 +1,87 @@
+import {z} from 'zod';
+import {Domain, sample} from 'effector';
+import {persist} from 'effector-storage/local';
+
 import {AppTheme} from '@shared/types';
-import {rootDomain} from '@shared/effectorRootEntities';
-import {ThemeEnum} from '@shared/constants';
-import {applyTheme, getInitialThemeValue} from './utils';
+import {appStarted, rootDomain} from '@shared/effectorRootEntities';
+import {LocalStorageKeys, ThemeEnum} from '@shared/constants';
+import {safeDeserializeJson} from '@shared/lib/utils';
 
-const themeToggleDomain = rootDomain.createDomain('themeToggleDomain');
+function createThemeModel(domain: Domain) {
+  const checkIsDarkThemePreferred = (): boolean => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
 
-export const initialThemeValue = getInitialThemeValue(ThemeEnum.Light);
+  const getInitialThemeValue = (defaultValue: AppTheme): ThemeEnum => {
+    let themeValue: ThemeEnum;
 
-export const applyThemeFx = themeToggleDomain.createEffect({
-  name: 'applyThemeFx',
-  handler: (theme: ThemeEnum) => applyTheme(theme),
-});
+    const rawValue = localStorage.getItem(LocalStorageKeys.App_theme);
+    const preferredTheme = checkIsDarkThemePreferred() ? ThemeEnum.Dark : defaultValue;
 
-export const $themeLs = themeToggleDomain.createStore<AppTheme>(initialThemeValue);
-export const themeChanged = themeToggleDomain.createEvent<ThemeEnum>('themeChanged');
+    if (!rawValue) {
+      themeValue = preferredTheme;
+    } else {
+      const deserializedValue = safeDeserializeJson(rawValue, preferredTheme);
+      const validatedValue = themeValueSchema.safeParse(deserializedValue);
+      themeValue = validatedValue.success ? validatedValue.data : preferredTheme;
+    }
+
+    return themeValue;
+  };
+
+  const applyTheme = (theme: ThemeEnum) => {
+    // todo, use attr instead class
+    if (theme === ThemeEnum.Dark) document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+  };
+
+  const initTheme = (themeValue: ThemeEnum) => {
+    localStorage.setItem(LocalStorageKeys.App_theme, JSON.stringify(themeValue));
+    applyTheme(themeValue);
+
+    return themeValue;
+  };
+
+  //
+  const initialThemeValue = getInitialThemeValue(ThemeEnum.Light);
+
+  const applyThemeFx = domain.createEffect({
+    name: 'applyThemeFx',
+    handler: (theme: ThemeEnum) => applyTheme(theme),
+  });
+
+  const initThemeFx = domain.createEffect({
+    name: 'initThemeFx',
+    handler: () => initTheme(initialThemeValue),
+  });
+
+  const $themeLs = domain.createStore<AppTheme>(initialThemeValue);
+  const themeChanged = domain.createEvent<ThemeEnum>('themeChanged');
+
+  persist({
+    store: $themeLs,
+    key: LocalStorageKeys.App_theme,
+  });
+
+  sample({
+    clock: appStarted,
+    target: initThemeFx,
+  });
+
+  sample({
+    clock: themeChanged,
+    target: $themeLs,
+  });
+
+  sample({
+    clock: $themeLs,
+    target: applyThemeFx,
+  });
+
+  return {$themeLs, themeChanged};
+}
+
+const themeValueSchema = z.nativeEnum(ThemeEnum);
+const themeToggleDomain = rootDomain.createDomain('themeToggleDomain_TEST');
+
+export const {$themeLs, themeChanged} = createThemeModel(themeToggleDomain);

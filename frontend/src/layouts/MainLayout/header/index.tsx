@@ -44,7 +44,7 @@ export const Header = () => {
           </>
         ) : (
           <>
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/">
               <h1 className="text-2xl font-bold">Movies</h1>
             </Link>
 
