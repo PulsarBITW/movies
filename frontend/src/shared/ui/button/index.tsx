@@ -13,6 +13,7 @@ const buttonVariants = cva(
         'fill-light': 'hover:border-2 hover:border-primary-light',
         outline: 'border border-accent',
         ghost: 'text-text-primary',
+        accent: '',
       },
       color: {
         default: 'bg-primary hover:bg-btn-hovered-bg-primary shadow',
@@ -93,6 +94,10 @@ const buttonVariants = cva(
         variant: 'ghost',
         color: 'default',
         class: 'bg-transparent hover:bg-accent shadow-none',
+      },
+      {
+        variant: 'accent',
+        class: 'bg-accent hover:bg-accent-foreground [&_svg]:size-5 text-text-primary',
       },
     ],
     defaultVariants: {

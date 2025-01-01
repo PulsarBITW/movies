@@ -12,6 +12,8 @@ function createEslintConfig() {
 
   const overridedRules = {
     'react/react-in-jsx-scope': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
   };
 
   return [

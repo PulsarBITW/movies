@@ -1,3 +1,5 @@
+import tailwindcssAnimatePlugin from 'tailwindcss-animate';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -74,6 +76,9 @@ module.exports = {
           success: 'var(--color-foreground-success)',
           destructive: 'var(--color-foreground-destructive)',
         },
+        'navigation-menu': {
+          bg: 'var(--color-navigation-menu-bg)',
+        },
         btn: {
           text: {
             DEFAULT: 'var(--color-btn-text)',
@@ -100,5 +105,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimatePlugin],
 };

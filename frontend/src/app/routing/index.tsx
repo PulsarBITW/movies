@@ -9,6 +9,12 @@ const AppRouting = () => (
       <Route index element={<MockPage title="Main" />} />
       <Route path="/top-views" element={<MockPage title="Top Views" />} />
       <Route path="/theme-page" element={<ThemePage />} />
+      <Route path="/films" element={<MockPage title="Films" />} />
+      <Route path="/series" element={<MockPage title="Series" />} />
+      <Route path="/my-list" element={<MockPage title="My list" />} />
+      <Route path="/profile" element={<MockPage title="Profile" />} />
+      <Route path="/news" element={<MockPage title="News" />} />
+      <Route path="/faq" element={<MockPage title="FAQ" />} />
     </Route>
 
     <Route path="/auth" element={<MockPage title="Auth" />} />
