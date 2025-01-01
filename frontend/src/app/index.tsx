@@ -1,7 +1,9 @@
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
+import {allSettled} from 'effector';
+import {Provider} from 'effector-react';
 
-import {appStarted} from '@shared/effectorRootEntities';
+import {appScope, appStarted} from '@shared/effectorRootEntities';
 import AppRouting from './routing';
 import './initModules';
 
@@ -12,10 +14,13 @@ if (!rootHtml) {
 } else {
   const reactRoot = ReactDOM.createRoot(rootHtml);
 
-  appStarted();
+  allSettled(appStarted, {scope: appScope});
+
   reactRoot.render(
-    <BrowserRouter>
-      <AppRouting />
-    </BrowserRouter>,
+    <Provider value={appScope}>
+      <BrowserRouter>
+        <AppRouting />
+      </BrowserRouter>
+    </Provider>,
   );
 }

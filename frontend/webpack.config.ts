@@ -117,7 +117,7 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
       overrideConfigFile: path.resolve(__dirname, 'eslint.config.mjs'),
       configType: 'flat',
       emitError: true,
-      emitWarning: true,
+      emitWarning: false,
       failOnError: true,
     });
 
@@ -179,7 +179,7 @@ const getDevServer = (configOptions: ConfigOptions): DevServerConfiguration => {
       progress: true,
       overlay: {
         errors: true,
-        warnings: true,
+        warnings: false,
         runtimeErrors: true,
       },
     },

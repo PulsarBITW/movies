@@ -1,11 +1,11 @@
 import {useUnit} from 'effector-react';
 
-import {Button} from '@shared/ui';
+import {Button, ButtonProps} from '@shared/ui';
 import {ThemeEnum} from '@shared/constants';
 import {$themeLs, themeChanged} from '../model';
 import {renderThemeIcon} from './helpers';
 
-export const ThemeToggler = () => {
+export const ThemeToggler = ({variant = 'accent', size = 'icon', ...otherProps}: ButtonProps) => {
   const [theme, setTheme] = useUnit([$themeLs, themeChanged]);
 
   const toggleTheme = () => {
@@ -14,11 +14,7 @@ export const ThemeToggler = () => {
   };
 
   return (
-    <Button
-      className="bg-accent hover:bg-accent-foreground [&_svg]:size-5"
-      size="icon"
-      onClick={toggleTheme}
-    >
+    <Button variant={variant} size={size} onClick={toggleTheme} {...otherProps}>
       {renderThemeIcon(theme)}
     </Button>
   );

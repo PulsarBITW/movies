@@ -57,7 +57,7 @@
   --color-text-primary: #212529;
   --color-text-secondary: #495057;
   --color-text-muted: #adb5bd;
-  --color-text-inverted-primary: #dddddd;
+  --color-text-inverted-primary: #cfcfcf;
   --color-text-inverted-secondary: #8f8f8f;
   --color-text-inverted-muted: #5f5f5f;
 
@@ -80,7 +80,10 @@
   --color-foreground-success: var(--color-destructive-400);
   --color-foreground-destructive: var(--color-destructive-400);
 
-  --color-accent: rgba(116, 116, 134, 0.25);
+  --color-navigation-menu-bg: #fff;
+
+  /* --color-accent: rgba(116, 116, 134, 0.25); */
+  --color-accent: rgb(197, 197, 219);
   --color-accent-foreground: rgba(101, 101, 116, 0.25);
 
   --color-header: var(--color-purple-200);
@@ -94,7 +97,8 @@
 }
 
 .dark {
-  --color-text-primary: #dddddd;
+  /* --color-text-primary: #dddddd; */
+  --color-text-primary: #cfcfcf;
   --color-text-secondary: #8f8f8f;
   --color-text-muted: #5f5f5f;
   --color-text-inverted-primary: #212529;
@@ -115,7 +119,10 @@
   --color-foreground: #1c1c1c;
   --color-foreground-secondary: #1c1c1c;
 
-  --color-accent: #303033;
+  --color-navigation-menu-bg: #353538;
+
+  /* --color-accent: #303033; */
+  --color-accent: #313131;
   --color-accent-foreground: #2a2a2c;
 
   --color-ring-primary: #ccd3f3;
@@ -123,4 +130,5 @@
 
 body {
   background-color: var(--color-background);
+  font-family: 'Roboto', sans-serif;
 }

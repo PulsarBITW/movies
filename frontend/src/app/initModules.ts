@@ -1,2 +1,3 @@
-import '@features/themeToggle/model/init';
+import '@entities/screenType/model';
+import '@features/themeToggle/model';
 import './global.css';
