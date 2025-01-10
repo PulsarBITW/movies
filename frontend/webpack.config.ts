@@ -119,6 +119,9 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
       emitError: true,
       emitWarning: false,
       failOnError: true,
+      // emitError: false,
+      // emitWarning: false,
+      // failOnError: false,
     });
 
     plugins.push(reactRefreshWebpackPlugin, eslintPlugin);
@@ -178,9 +181,12 @@ const getDevServer = (configOptions: ConfigOptions): DevServerConfiguration => {
     client: {
       progress: true,
       overlay: {
-        errors: true,
+        // errors: true,
+        // warnings: false,
+        // runtimeErrors: true,
+        errors: false,
         warnings: false,
-        runtimeErrors: true,
+        runtimeErrors: false,
       },
     },
   };

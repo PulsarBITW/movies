@@ -1,2 +1,2 @@
-export {$themeLs, themeChanged} from './model';
+export * from './model';
 export {ThemeToggler} from './ui';

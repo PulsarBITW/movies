@@ -2,11 +2,12 @@ import {Route, Routes} from 'react-router-dom';
 
 import {MainLayout} from '@layouts/MainLayout';
 import {ThemePage} from '@pages/themePage';
+import {MainPage} from '@pages/main';
 
 const AppRouting = () => (
   <Routes>
     <Route element={<MainLayout />}>
-      <Route index element={<MockPage title="Main" />} />
+      <Route index element={<MainPage />} />
       <Route path="/top-views" element={<MockPage title="Top Views" />} />
       <Route path="/theme-page" element={<ThemePage />} />
       <Route path="/films" element={<MockPage title="Films" />} />
@@ -23,7 +24,7 @@ const AppRouting = () => (
 );
 
 const MockPage = ({title}: {title: string}) => {
-  return <div className='gap-4" flex w-full flex-col text-text-primary'>{title}</div>;
+  return <div className='gap-4" flex w-full flex-col px-2 text-text-primary'>{title}</div>;
 };
 
 export default AppRouting;

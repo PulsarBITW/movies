@@ -41,6 +41,7 @@ function createThemeModel(domain: Domain) {
   };
 
   //
+  const themeValueSchema = z.nativeEnum(ThemeEnum);
   const initialThemeValue = getInitialThemeValue(ThemeEnum.Light);
 
   const applyThemeFx = domain.createEffect({
@@ -76,10 +77,9 @@ function createThemeModel(domain: Domain) {
     target: applyThemeFx,
   });
 
-  return {$themeLs, themeChanged};
+  return {$themeLs, themeChanged, themeValueSchema};
 }
 
-const themeValueSchema = z.nativeEnum(ThemeEnum);
-const themeToggleDomain = rootDomain.createDomain('themeToggleDomain_TEST');
+const themeToggleDomain = rootDomain.createDomain('themeToggleDomain');
 
-export const {$themeLs, themeChanged} = createThemeModel(themeToggleDomain);
+export const {$themeLs, themeChanged, themeValueSchema} = createThemeModel(themeToggleDomain);

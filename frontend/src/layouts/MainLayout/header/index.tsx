@@ -23,7 +23,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-10 flex min-h-[60px] w-full items-center gap-2 bg-header shadow">
-      <div className="container mx-auto flex max-w-[1200px] items-center justify-between gap-2 px-2 text-text-primary lg:px-0">
+      <div className="container mx-auto flex max-w-[1200px] items-center justify-between gap-2 px-2 text-text-primary">
         {isBelowTablet ? (
           <>
             <NavSheet isAuth={isAuth} toggleAuth={toggleAuth} />
@@ -66,7 +66,7 @@ export const Header = () => {
 
             <div className="flex gap-2">
               <ThemeToggler />
-              <Button>
+              <Button asChild>
                 <Link to="/auth">Login</Link>
               </Button>
             </div>

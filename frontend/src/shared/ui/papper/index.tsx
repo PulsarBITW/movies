@@ -4,7 +4,7 @@ import {cn} from '@shared/lib/utils';
 
 type PapperProps = {
   children: ReactNode;
-  className: string;
+  className?: string;
 };
 
 export const Papper = ({children, className}: PapperProps) => {
