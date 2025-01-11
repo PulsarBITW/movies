@@ -65,7 +65,7 @@ const LatestArrivals = () => {
       options={{
         align: 'start',
         skipSnaps: false,
-        slideOnWheel: true,
+        dragFree: true,
       }}
       plugins={[slideOnWheelPlugin(), slideOnArrowPlugin()]}
       setApi={(api) => {
