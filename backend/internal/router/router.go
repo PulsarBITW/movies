@@ -36,7 +36,8 @@ func CreateRouter(appConfig *config.Config) *Router {
     ginEngine.Use(middlewares.ErrorHandler()) 
 
     // api handlers
-    ginEngine.GET("/api/movies", handlers.GetMovieList)
+    ginEngine.GET("/api/media", handlers.GetMediaList)
+    ginEngine.GET("/api/films", handlers.GetFilms)
 
    
     return &Router{Engine: ginEngine}

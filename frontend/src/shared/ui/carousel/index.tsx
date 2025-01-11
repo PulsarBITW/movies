@@ -17,10 +17,8 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
-type CustomOptions = CarouselOptions & {slideOnWheel?: boolean};
-
 type CarouselProps = {
-  options?: CustomOptions;
+  options?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;

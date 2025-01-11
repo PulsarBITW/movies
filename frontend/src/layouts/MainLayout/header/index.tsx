@@ -33,14 +33,11 @@ export const Header = () => {
               Search
             </Button>
 
-            <div className="flex gap-2">
-              <ThemeToggler />
-              <Button asChild size="icon">
-                <Link to="/auth">
-                  <LogIn />
-                </Link>
-              </Button>
-            </div>
+            <Button asChild size="icon">
+              <Link to="/auth">
+                <LogIn />
+              </Link>
+            </Button>
           </>
         ) : (
           <>
