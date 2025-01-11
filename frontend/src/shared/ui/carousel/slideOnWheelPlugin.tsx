@@ -2,10 +2,12 @@ import {EmblaCarouselType, OptionsHandlerType} from 'embla-carousel';
 import {CreateOptionsType} from 'embla-carousel/components/Options';
 import {CreatePluginType} from 'embla-carousel/components/Plugins';
 
-export type SlideOnWheelPluginOptions = CreateOptionsType<{
-  forceWheelAxis?: 'x' | 'y';
+export type SlideOnWheelUserOptions = {
+  enableShiftToSlide?: boolean;
   target?: HTMLElement;
-}>;
+};
+
+export type SlideOnWheelPluginOptions = CreateOptionsType<SlideOnWheelUserOptions>;
 
 // eslint-disable-next-line
 type SlideOnWheelPluginType = CreatePluginType<{}, SlideOnWheelPluginOptions>;
@@ -13,12 +15,16 @@ type SlideOnWheelPluginType = CreatePluginType<{}, SlideOnWheelPluginOptions>;
 const defaultOptions: SlideOnWheelPluginOptions = {
   breakpoints: {},
   active: true,
-  forceWheelAxis: undefined,
+  enableShiftToSlide: true,
   target: undefined,
 };
 
+/**
+ *  @param enableShiftToSlide -  Switch slides only by holding Shift; `boolean`; default `true`
+ *  @param target - target for event handlers; default: embla.containerNode().parentNode
+ *  */
 export function slideOnWheelPlugin(
-  userOptions: SlideOnWheelPluginType['options'] = {},
+  userOptions: SlideOnWheelUserOptions = {},
 ): SlideOnWheelPluginType {
   let options: SlideOnWheelPluginOptions;
   let cleanup = () => {};
@@ -32,16 +38,22 @@ export function slideOnWheelPlugin(
     const targetNode: HTMLElement =
       options.target ?? (embla.containerNode().parentNode as HTMLElement);
 
-    const handleOnWheel = (event: WheelEvent) => {
+    const baseHandler = (event: WheelEvent) => {
       event.preventDefault();
       if (event.deltaY > 0) embla.scrollNext();
       else if (event.deltaY < 0) embla.scrollPrev();
     };
 
-    targetNode.addEventListener('wheel', handleOnWheel);
+    const shiftOnlyHandler = (event: WheelEvent) => {
+      if (event.shiftKey) baseHandler(event);
+    };
+
+    const onWheelHandler = options.enableShiftToSlide ? shiftOnlyHandler : baseHandler;
+
+    targetNode.addEventListener('wheel', onWheelHandler);
 
     cleanup = () => {
-      targetNode.removeEventListener('wheel', handleOnWheel);
+      targetNode.removeEventListener('wheel', onWheelHandler);
     };
   }
 

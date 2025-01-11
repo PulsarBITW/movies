@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import useEmblaCarousel, {type UseEmblaCarouselType} from 'embla-carousel-react';
-import {ArrowLeft, ArrowRight} from 'lucide-react';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 import {cn} from '@shared/lib/utils';
 import {Button} from '../button';
@@ -99,7 +99,7 @@ const Carousel = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>
       >
         <div
           ref={ref}
-          className={cn('relative', className)}
+          className={cn('group relative', className)}
           role="region"
           aria-roledescription="carousel"
           {...props}
@@ -164,17 +164,18 @@ const CarouselPrevious = forwardRef<HTMLButtonElement, React.ComponentProps<type
         variant={variant}
         size={size}
         className={cn(
-          'absolute h-8 w-8 rounded-full',
+          'absolute hidden h-10 w-10 rounded-full bg-foreground shadow [&_svg]:size-6',
+          /**@description  Show the control button on hover for lg screen */
+          canScrollPrev && 'lg:group-hover:inline-flex',
           orientation === 'horizontal'
-            ? '-left-12 top-1/2 -translate-y-1/2'
+            ? '-left-2 top-1/2 -translate-y-1/2'
             : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
           className,
         )}
-        disabled={!canScrollPrev}
         onClick={scrollPrev}
         {...props}
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ChevronLeft />
         <span className="sr-only">Previous slide</span>
       </Button>
     );
@@ -192,17 +193,18 @@ const CarouselNext = forwardRef<HTMLButtonElement, React.ComponentProps<typeof B
         variant={variant}
         size={size}
         className={cn(
-          'absolute h-8 w-8 rounded-full',
+          'absolute hidden h-10 w-10 rounded-full bg-foreground shadow [&_svg]:size-6',
+          /**@description  Show the control button on hover for lg screen */
+          canScrollNext && 'lg:group-hover:inline-flex',
           orientation === 'horizontal'
-            ? '-right-12 top-1/2 -translate-y-1/2'
+            ? '-right-2 top-1/2 -translate-y-1/2'
             : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
           className,
         )}
-        disabled={!canScrollNext}
         onClick={scrollNext}
         {...props}
       >
-        <ArrowRight className="h-4 w-4" />
+        <ChevronRight />
         <span className="sr-only">Next slide</span>
       </Button>
     );

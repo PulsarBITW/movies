@@ -16,10 +16,6 @@ import {slideOnArrowPlugin} from '@shared/ui/carousel/slideOnArrowPlugin';
 import {$mediaList, MainPageGate} from '../model';
 import {MediaCard} from './mediaCard';
 
-const MockHeightBlock = () => (
-  <div className="h-[400px] w-full rounded-2xl border border-orange-400"> 111</div>
-);
-
 export const MainPage = () => {
   useGate(MainPageGate);
 
@@ -30,7 +26,7 @@ export const MainPage = () => {
     if (count > 0) setCount(count - 1);
   };
 
-  const carousels = Array.from({length: count}, (v) => v as number);
+  const carousels = Array.from({length: count}, (_, i) => i + 1);
 
   return (
     <div className="flex max-w-full select-none flex-col gap-4 px-2">
@@ -44,16 +40,16 @@ export const MainPage = () => {
         </div>
       </div>
 
-      {carousels.map((el) => (
-        <Papper className="px-0" key={el}>
-          <LatestArrivals />
+      {carousels.map((value) => (
+        <Papper className="px-0" key={value}>
+          <LatestArrivals orientation="horizontal" />
         </Papper>
       ))}
     </div>
   );
 };
 
-const LatestArrivals = () => {
+const LatestArrivals = ({orientation}: {orientation: 'horizontal' | 'vertical'}) => {
   const mediaList = useUnit($mediaList);
 
   const carouselApi = useRef<CarouselApi | null>(null);
@@ -67,6 +63,7 @@ const LatestArrivals = () => {
         skipSnaps: false,
         dragFree: true,
       }}
+      orientation={orientation}
       plugins={[slideOnWheelPlugin(), slideOnArrowPlugin()]}
       setApi={(api) => {
         carouselApi.current = api;
@@ -82,8 +79,8 @@ const LatestArrivals = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      {/* <CarouselPrevious /> */}
-      {/* <CarouselNext /> */}
+      <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 };

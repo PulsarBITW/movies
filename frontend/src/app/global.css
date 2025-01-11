@@ -129,6 +129,10 @@
   --color-ring-primary: #ccd3f3;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--color-background);
   font-family: 'Roboto', sans-serif;
