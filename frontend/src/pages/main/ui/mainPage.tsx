@@ -33,7 +33,7 @@ export const MainPage = () => {
   const carousels = Array.from({length: count}, (v) => v as number);
 
   return (
-    <div className="flex select-none flex-col gap-4 px-2">
+    <div className="flex max-w-full select-none flex-col gap-4 px-2">
       <div className="flex w-fit flex-col items-center gap-1">
         <h3 className="w-fit">{count}</h3>
         <div>
@@ -82,8 +82,8 @@ const LatestArrivals = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      {/* <CarouselPrevious /> */}
+      {/* <CarouselNext /> */}
     </Carousel>
   );
 };
