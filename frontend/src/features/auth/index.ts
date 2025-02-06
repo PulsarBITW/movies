@@ -1,0 +1,1 @@
+export {authenticationModel} from './model';

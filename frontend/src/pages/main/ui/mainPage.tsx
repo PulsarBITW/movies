@@ -13,11 +13,16 @@ import {
 import {slideOnWheelPlugin} from '@shared/ui/carousel/slideOnWheelPlugin';
 import {slideOnArrowPlugin} from '@shared/ui/carousel/slideOnArrowPlugin';
 
-import {$mediaList, MainPageGate} from '../model';
+import {$mediaList, fetchMediaListFx, fetchMoviesListFx, logPending, MainPageGate} from '../model';
 import {MediaCard} from './mediaCard';
+import {UserBlock} from './userBlock';
 
 export const MainPage = () => {
   useGate(MainPageGate);
+
+  const fetchMediaList = useUnit(fetchMediaListFx);
+  const fetchMoviesList = useUnit(fetchMoviesListFx);
+  const logPendingOnClick = useUnit(logPending);
 
   const [count, setCount] = useState(1);
 
@@ -30,6 +35,9 @@ export const MainPage = () => {
 
   return (
     <div className="flex max-w-full select-none flex-col gap-4 px-2">
+      <Papper>
+        <UserBlock />
+      </Papper>
       <div className="flex w-fit flex-col items-center gap-1">
         <h3 className="w-fit">{count}</h3>
         <div>
@@ -40,6 +48,29 @@ export const MainPage = () => {
         </div>
       </div>
 
+      <Papper>
+        <Button
+          onClick={() => {
+            fetchMediaList();
+          }}
+        >
+          force fetchMediaList
+        </Button>
+        <Button
+          onClick={() => {
+            logPendingOnClick();
+          }}
+        >
+          check pending
+        </Button>
+        <Button
+          onClick={() => {
+            fetchMoviesList();
+          }}
+        >
+          force fetchMoviesList
+        </Button>
+      </Papper>
       {carousels.map((value) => (
         <Papper className="px-0" key={value}>
           <LatestArrivals orientation="horizontal" />

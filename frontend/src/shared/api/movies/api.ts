@@ -4,5 +4,5 @@ import type {Movie} from './types';
 import {apiClient} from '../apiClient';
 
 export const baseFetchMovies = async (axiosConfig?: AxiosRequestConfig): Promise<Movie[]> => {
-  return (await apiClient.get<Movie[]>('/api/movies', axiosConfig)).data;
+  return (await apiClient.get<Movie[]>('/api/films', axiosConfig)).data;
 };
