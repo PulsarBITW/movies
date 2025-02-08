@@ -3,7 +3,7 @@ import {BrowserRouter} from 'react-router-dom';
 import {allSettled} from 'effector';
 import {Provider} from 'effector-react';
 
-import {appScope, appStarted} from '@shared/effectorRootEntities';
+import {appScope, appStarted} from '@shared/config';
 import AppRouting from './routing';
 import './initModules';
 

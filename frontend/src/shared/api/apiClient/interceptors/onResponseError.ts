@@ -1,7 +1,7 @@
 import {AxiosError} from 'axios';
 import {allSettled} from 'effector';
 
-import {appScope, rootDomain} from '@shared/effectorRootEntities';
+import {appScope, rootDomain} from '@shared/config';
 import {baseRefreshTokens} from '../../auth';
 import {AuthTokensStorageController} from '../AuthTokensStorageController';
 import {apiClient} from '../apiClient';

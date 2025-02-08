@@ -1,7 +1,7 @@
 import {createEffect, createEvent, sample} from 'effector';
 import {createGate} from 'effector-react';
 
-import {rootDomain} from '@shared/effectorRootEntities';
+import {rootDomain} from '@shared/config';
 import {MediaItem} from '@shared/types/media';
 import {baseFetchMovies, baseFetchMediaList} from '@shared/api';
 

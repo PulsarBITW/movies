@@ -1,7 +1,7 @@
 import {Domain, sample, scopeBind} from 'effector';
 
 import {User} from '@shared/types/currentUser';
-import {appStarted, rootDomain} from '@shared/effectorRootEntities';
+import {appStarted, rootDomain} from '@shared/config';
 import {currentUserModel} from '@entities/currentUser';
 import {
   invalidToken,

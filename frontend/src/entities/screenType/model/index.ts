@@ -1,7 +1,7 @@
 import {Domain, sample, scopeBind} from 'effector';
 
 import {breakPoints, ScreenTypeEnum} from '@shared/constants';
-import {appStarted, rootDomain} from '@shared/effectorRootEntities';
+import {appStarted, rootDomain} from '@shared/config';
 
 const createScreenTypeModel = (domain: Domain) => {
   const mobileQuery = window.matchMedia(`(max-width: ${breakPoints.mobile}px)`);

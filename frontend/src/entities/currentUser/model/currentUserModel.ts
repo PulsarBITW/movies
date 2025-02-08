@@ -1,7 +1,7 @@
 import {Domain} from 'effector';
 import {debug} from 'patronum';
 
-import {rootDomain} from '@shared/effectorRootEntities';
+import {rootDomain} from '@shared/config';
 import {User} from '@shared/types/currentUser';
 
 type CreateCurrentUserModelParams = {
