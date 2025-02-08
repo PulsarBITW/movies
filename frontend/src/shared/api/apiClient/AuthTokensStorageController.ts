@@ -62,12 +62,3 @@ export class AuthTokensStorageController {
     this.removeField(LocalStorageKeys.App_refresh_token);
   }
 }
-
-//
-const INVALID_ACCESS_TOKEN = 'something';
-const VALID_REFRESH_TOKEN = 'refresh1';
-
-AuthTokensStorageController.setAuthTokens({
-  accessToken: INVALID_ACCESS_TOKEN,
-  refreshToken: VALID_REFRESH_TOKEN,
-});

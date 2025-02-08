@@ -1,7 +1,8 @@
 import {Domain, sample, scopeBind} from 'effector';
 
+import {User} from '@shared/types/currentUser';
+import {appStarted, rootDomain} from '@shared/effectorRootEntities';
 import {currentUserModel} from '@entities/currentUser';
-import {rootDomain} from '@shared/effectorRootEntities';
 import {
   invalidToken,
   AuthTokensStorageController,
@@ -10,26 +11,25 @@ import {
 } from '@shared/api';
 
 export function createAuthModel({domain}: {domain: Domain}) {
-  const login = domain.createEvent<Credentials>('login');
+  const login = domain.createEvent<{credentials: Credentials; redirect?: () => void}>('login');
 
   const loginFx = domain.createEffect({
     name: 'loginFx',
-    handler: async (credentials: Credentials) => {
+    handler: async ({credentials, redirect}: {credentials: Credentials; redirect?: () => void}) => {
       const boundCurrentUserChanged = scopeBind(currentUserModel.currentUserChanged);
 
       const {accessToken, refreshToken, user} = await baseAuthentication(credentials);
 
-      boundCurrentUserChanged(user);
+      boundCurrentUserChanged(user as User);
 
       AuthTokensStorageController.setAuthTokens({
         accessToken,
         refreshToken,
       });
+
+      redirect?.();
     },
   });
-
-  // const GoogleAuthorizeModel = createGoogleAuthorizeModel()
-  // const MetaAuthorizeModel = createMetaAuthorizeModel()
 
   const $isAuth = currentUserModel.$currentUser.map<boolean>((currentUser) => Boolean(currentUser));
 
@@ -55,9 +55,16 @@ export function createAuthModel({domain}: {domain: Domain}) {
     target: loginFx,
   });
 
+  sample({
+    clock: appStarted,
+    filter: () => !!AuthTokensStorageController.validatedAccessToken,
+    fn: () => ({credentials: {login: 'test', password: 'test'}}),
+    target: loginFx,
+  });
+
   return {logout, login, $isAuth};
 }
 
 const authDomain = rootDomain.createDomain('authDomain');
 
-export const authenticationModel = createAuthModel({domain: authDomain});
+export const authModel = createAuthModel({domain: authDomain});

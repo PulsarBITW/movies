@@ -15,7 +15,6 @@ import {slideOnArrowPlugin} from '@shared/ui/carousel/slideOnArrowPlugin';
 
 import {$mediaList, fetchMediaListFx, fetchMoviesListFx, logPending, MainPageGate} from '../model';
 import {MediaCard} from './mediaCard';
-import {UserBlock} from './userBlock';
 
 export const MainPage = () => {
   useGate(MainPageGate);
@@ -35,9 +34,6 @@ export const MainPage = () => {
 
   return (
     <div className="flex max-w-full select-none flex-col gap-4 px-2">
-      <Papper>
-        <UserBlock />
-      </Papper>
       <div className="flex w-fit flex-col items-center gap-1">
         <h3 className="w-fit">{count}</h3>
         <div>

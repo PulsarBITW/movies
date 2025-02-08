@@ -1,7 +1,7 @@
+import {useUnit} from 'effector-react';
 import {Link} from 'react-router-dom';
 import {AlignJustify, LogIn, X} from 'lucide-react';
 
-import {ThemeToggler} from '@features/themeToggle';
 import {
   Button,
   Sheet,
@@ -10,22 +10,19 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
 } from '@shared/ui';
+import {currentUserModel} from '@entities/currentUser';
+import {ThemeToggler} from '@features/themeToggle';
 import {filterNavLinkList} from './utils';
 import {otherNavLinkList, primaryNavLinkList} from './constants';
 import {HeaderNavLink} from './headerNavLink';
+import {UserAvatar} from './userAvatar';
 
-type NavSheetProps = {
-  isAuth: boolean;
-  toggleAuth: () => void;
-};
+export const NavSheet = () => {
+  const currentUser = useUnit(currentUserModel.$currentUser);
 
-export const NavSheet = ({isAuth, toggleAuth}: NavSheetProps) => {
-  const filteredNavLinkList = filterNavLinkList(primaryNavLinkList, isAuth).concat(
-    filterNavLinkList(otherNavLinkList, isAuth),
+  const filteredNavLinkList = filterNavLinkList(primaryNavLinkList, !!currentUser).concat(
+    filterNavLinkList(otherNavLinkList, !!currentUser),
   );
 
   return (
@@ -62,26 +59,24 @@ export const NavSheet = ({isAuth, toggleAuth}: NavSheetProps) => {
               </li>
             ))}
           </ul>
-          <Button onClick={toggleAuth}>{isAuth ? 'LogOut' : 'Login'}</Button>
         </div>
 
         <div className="flex justify-end border-t border-accent px-4 py-4">
-          {isAuth ? (
+          {currentUser ? (
             <div className="flex items-center gap-4">
-              <div className="text-lg text-text-primary">User user</div>
+              <div className="text-lg text-text-primary">{currentUser.name}</div>
               <SheetClose asChild>
                 <Link to="/profile">
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  <UserAvatar />
                 </Link>
               </SheetClose>
             </div>
           ) : (
-            <Button>
-              Login
-              <LogIn />
+            <Button asChild>
+              <Link to="/auth/sign-in">
+                Login
+                <LogIn />
+              </Link>
             </Button>
           )}
         </div>

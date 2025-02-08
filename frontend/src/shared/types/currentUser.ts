@@ -1,3 +1,6 @@
-export type User = {
-  id: string;
-};
+export interface User {
+  id: number;
+  login: string;
+  name: string;
+  role: string;
+}

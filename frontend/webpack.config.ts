@@ -23,6 +23,7 @@ interface ConfigPaths {
   public: string;
   src: string;
   favicon: string;
+  outputPublicPath: string;
 }
 type ConfigMode = webpack.Configuration['mode'];
 
@@ -43,6 +44,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
     entry: path.resolve(__dirname, 'src', 'index.ts'),
     output: path.resolve(__dirname, 'build'),
     favicon: path.resolve(__dirname, 'public', 'Favicon.ico'),
+    outputPublicPath: '/',
   };
 
   const configOptions: ConfigOptions = {
@@ -60,6 +62,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
     entry: configOptions.paths.entry,
     output: {
       path: configOptions.paths.output,
+      publicPath: configOptions.paths.outputPublicPath,
       filename: '[name].[contenthash].js',
       clean: true,
     },
