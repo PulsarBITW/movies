@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var count = 1;
 
 func UpdateTokens(c *gin.Context) {
 	var requestBody struct {
@@ -33,11 +32,9 @@ func UpdateTokens(c *gin.Context) {
 		return
 	}
 
-	count++
-	newToken :=lib.GenerateRandomToken(count)
+	mockdata.TokenRefreshCounter++
+	newAccessToken,newRefreshToken:=lib.GenerateTokens(mockdata.TokenRefreshCounter)
 
-	newAccessToken := "access-" + newToken
-	newRefreshToken := "refresh-" + newToken
 
 	mockdata.RefreshTokenStore = append(mockdata.RefreshTokenStore, newRefreshToken)
 	mockdata.AccessTokenStore = append(mockdata.AccessTokenStore, newAccessToken)

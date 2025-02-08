@@ -7,3 +7,5 @@ var AccessTokenStore = []string{
 var RefreshTokenStore = []string{
 	"refresh1",
 }
+
+var TokenRefreshCounter = 1
