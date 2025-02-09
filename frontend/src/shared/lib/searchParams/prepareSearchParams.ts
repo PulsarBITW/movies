@@ -6,7 +6,7 @@ type ValidationValuesResult<T extends ConfigSchema> = {
     value: T[K]['schema'] extends z.ZodType<infer S>
       ? S[] | null
       : T[K]['parse'] extends (value: string | null) => infer R
-        ? R[]
+        ? R[] | null
         : string[] | null;
     hasValidationError: boolean;
   };
