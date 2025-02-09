@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 import {useUnit} from 'effector-react';
 import {LogIn, MoreHorizontal, Search} from 'lucide-react';
 
-import {ScreenTypeEnum} from '@shared/constants';
+import {ScreenTypeEnum} from '@shared/config';
 import {Button} from '@shared/ui';
 import {$screenType} from '@entities/screenType';
 import {ThemeToggler} from '@features/themeToggle';

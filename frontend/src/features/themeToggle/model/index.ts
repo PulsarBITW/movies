@@ -4,7 +4,7 @@ import {persist} from 'effector-storage/local';
 
 import {AppTheme} from '@shared/types';
 import {appStarted, rootDomain} from '@shared/config';
-import {LocalStorageKeys, ThemeEnum} from '@shared/constants';
+import {LocalStorageKeys, ThemeEnum} from '@shared/config';
 import {safeDeserializeJson} from '@shared/lib/utils';
 
 function createThemeModel(domain: Domain) {

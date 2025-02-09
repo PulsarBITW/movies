@@ -1,6 +1,6 @@
 import {z} from 'zod';
 
-import {AuthKeys, LocalStorageKeys} from '@shared/constants';
+import {AuthKeys, LocalStorageKeys} from '@shared/config';
 import {AuthTokensData} from '@shared/api';
 
 export class AuthTokensStorageController {

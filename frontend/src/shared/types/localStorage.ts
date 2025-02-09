@@ -1,4 +1,4 @@
-import {ThemeEnum} from '@shared/constants';
+import {ThemeEnum} from '@shared/config';
 
 type AppLatestView = {
   id: string;

@@ -1,7 +1,7 @@
 import {useUnit} from 'effector-react';
 
 import {Button, ButtonProps} from '@shared/ui';
-import {ThemeEnum} from '@shared/constants';
+import {ThemeEnum} from '@shared/config';
 import {$themeLs, themeChanged} from '../model';
 import {renderThemeIcon} from './helpers';
 

@@ -1,6 +1,6 @@
 import {Domain, sample, scopeBind} from 'effector';
 
-import {breakPoints, ScreenTypeEnum} from '@shared/constants';
+import {breakPoints, ScreenTypeEnum} from '@shared/config';
 import {appStarted, rootDomain} from '@shared/config';
 
 const createScreenTypeModel = (domain: Domain) => {

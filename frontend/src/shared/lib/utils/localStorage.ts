@@ -1,4 +1,4 @@
-import {LocalStorageKeys} from '@shared/constants';
+import {LocalStorageKeys} from '@shared/config';
 import {LocalStorageValuesUnion} from '@shared/types';
 
 export type InitLocalStorageValueParams<T extends LocalStorageValuesUnion> = {
