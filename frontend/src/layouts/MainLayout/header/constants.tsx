@@ -3,6 +3,8 @@ import {CircleHelp, Flame, House, Newspaper, Palette, Star} from 'lucide-react';
 
 import Films from '@assets/films.svg';
 import Series from '@assets/series.svg';
+// todo -delete
+import {initialSearchParamsForTestPage} from '@pages/testSearchParams/model/searchParams';
 
 export type NavLinkItem = {
   icon: ReactNode;
@@ -18,6 +20,12 @@ export const primaryNavLinkList: NavLinkItem[] = [
     icon: <House />,
   },
   {title: 'Theme page', to: '/theme-page', icon: <Palette />},
+  {
+    title: 'Test search params',
+    // todo -delete
+    to: '/test-search-params' + '?' + initialSearchParamsForTestPage(),
+    icon: <Palette />,
+  },
   {title: 'Top views', to: '/top-views', icon: <Flame />},
   {title: 'Films', to: '/films', icon: <Films className="fill-text-primary" />},
   {title: 'Series', to: '/series', icon: <Series className="fill-text-primary" />},

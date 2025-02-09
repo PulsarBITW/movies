@@ -8,7 +8,7 @@ export const safeSerializeJson = <T>(value: T): string | null => {
   }
 };
 
-export const safeDeserializeJson = <T>(json: string, defaultValue: T): T => {
+export const safeDeserializeJson = <T>(json: string, defaultValue: T): string | T => {
   try {
     return JSON.parse(json);
   } catch (error) {
