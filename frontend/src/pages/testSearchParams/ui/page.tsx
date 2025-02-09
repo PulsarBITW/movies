@@ -5,9 +5,11 @@ import {testSearchParamsModel} from '../model';
 import {Papper} from '@shared/ui';
 
 export const TestSearchParamsPage = () => {
-  const [_, setUrlSearchParams] = useSearchParams();
+  const urlSearchParamsController = useSearchParams();
 
-  useGate(testSearchParamsModel.TestSearchParamsPageGate, {setUrlSearchParams});
+  useGate(testSearchParamsModel.TestSearchParamsPageGate, {
+    setUrlSearchParams: urlSearchParamsController[1],
+  });
 
   const {searchUser, regType, pickedDate, genderList} = useUnit({
     searchUser: testSearchParamsModel.$searchUser,
