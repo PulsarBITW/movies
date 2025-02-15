@@ -10,6 +10,11 @@ import {
   Credentials,
 } from '@shared/api';
 
+// #TODO
+// authByCredentials
+// authByToken
+// add route object in config
+
 export function createAuthModel({domain}: {domain: Domain}) {
   const login = domain.createEvent<Credentials>('login');
 
@@ -20,7 +25,7 @@ export function createAuthModel({domain}: {domain: Domain}) {
 
       const {accessToken, refreshToken, user} = await baseAuthentication(credentials);
 
-      boundCurrentUserChanged(user as User);
+      boundCurrentUserChanged(user);
 
       AuthTokensStorageController.setAuthTokens({
         accessToken,
