@@ -22,14 +22,14 @@ export const UserSchema: ZodType<IFormInput> = z.object({
 });
 
 export const SignIn = () => {
-  const login = useUnit(authModel.login);
+  const loginByCredentials = useUnit(authModel.loginByCredentials);
 
   const {register, handleSubmit} = useForm<IFormInput>({
     resolver: zodResolver(UserSchema),
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (credentials) => {
-    login(credentials);
+    loginByCredentials(credentials);
   };
 
   return (

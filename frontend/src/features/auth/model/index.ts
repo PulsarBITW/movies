@@ -1,30 +1,38 @@
 import {attach, Domain, sample, scopeBind} from 'effector';
 
-import {User} from '@shared/types/currentUser';
 import {appStarted, NavigationGate, rootDomain} from '@shared/config';
 import {currentUserModel} from '@entities/currentUser';
 import {
   invalidToken,
   AuthTokensStorageController,
-  baseAuthentication,
+  baseAuthenticationByCredentials,
   Credentials,
+  baseAuthenticationByToken,
 } from '@shared/api';
 
-// #TODO
-// authByCredentials
-// authByToken
-// add route object in config
-
 export function createAuthModel({domain}: {domain: Domain}) {
-  const login = domain.createEvent<Credentials>('login');
+  const loginByCredentials = domain.createEvent<Credentials>('login');
 
-  const loginFx = attach({
+  const loginByTokenFx = domain.createEffect({
+    handler: async () => {
+      const boundCurrentUserChanged = scopeBind(currentUserModel.currentUserChanged);
+      const currentAccessToken = AuthTokensStorageController.validatedAccessToken;
+      if (!currentAccessToken) throw new Error('loginByTokenFx failed');
+      const {accessToken, refreshToken, user} = await baseAuthenticationByToken(currentAccessToken);
+      boundCurrentUserChanged(user);
+
+      AuthTokensStorageController.setAuthTokens({
+        accessToken,
+        refreshToken,
+      });
+    },
+  });
+
+  const loginByCredentialsFx = attach({
     source: NavigationGate.state,
     effect: async (navigation, credentials: Credentials) => {
       const boundCurrentUserChanged = scopeBind(currentUserModel.currentUserChanged);
-
-      const {accessToken, refreshToken, user} = await baseAuthentication(credentials);
-
+      const {accessToken, refreshToken, user} = await baseAuthenticationByCredentials(credentials);
       boundCurrentUserChanged(user);
 
       AuthTokensStorageController.setAuthTokens({
@@ -56,18 +64,16 @@ export function createAuthModel({domain}: {domain: Domain}) {
   });
 
   sample({
-    clock: login,
-    target: loginFx,
+    clock: loginByCredentials,
+    target: loginByCredentialsFx,
   });
 
   sample({
     clock: appStarted,
-    filter: () => !!AuthTokensStorageController.validatedAccessToken,
-    fn: (): Credentials => ({login: 'test', password: 'test'}),
-    target: loginFx,
+    target: loginByTokenFx,
   });
 
-  return {logout, login, $isAuth};
+  return {logout, loginByCredentials, $isAuth};
 }
 
 const authDomain = rootDomain.createDomain('authDomain');

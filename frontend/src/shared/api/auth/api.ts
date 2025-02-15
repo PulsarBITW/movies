@@ -5,6 +5,12 @@ export const baseRefreshTokens = async (refreshToken: string): Promise<AuthToken
   return (await apiClient.post<AuthTokensData>('/api/refresh-tokens', {refreshToken})).data;
 };
 
-export const baseAuthentication = async (credentials: Credentials): Promise<LoginResponseDto> => {
-  return (await apiClient.post('/api/login', credentials)).data;
+export const baseAuthenticationByCredentials = async (
+  credentials: Credentials,
+): Promise<LoginResponseDto> => {
+  return (await apiClient.post('/api/login/credentials', credentials)).data;
+};
+
+export const baseAuthenticationByToken = async (accessToken: string): Promise<LoginResponseDto> => {
+  return (await apiClient.post('/api/login/token', {accessToken})).data;
 };
