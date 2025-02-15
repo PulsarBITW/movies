@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"movies-backend/configs"
 	"movies-backend/internal/mockdata"
 	"movies-backend/lib"
 	"net/http"
@@ -32,7 +33,17 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		accessToken := strings.TrimPrefix(authHeader, "Bearer ")
 
-		if !lib.CheckIsTokenValid(mockdata.AccessTokenStore, accessToken) {
+		claims, err := lib.ParseToken(accessToken, configs.TOP_SECRET)
+
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			c.Abort()
+			return
+		}
+
+		currentUser,userFound := mockdata.UsersByLogin[claims.Login]
+
+		if !userFound || currentUser.AccessToken != accessToken {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid accessToken"})
 			c.Abort()
 			return

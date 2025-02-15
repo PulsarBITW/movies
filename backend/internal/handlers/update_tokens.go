@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"movies-backend/configs"
 	"movies-backend/internal/mockdata"
 	"movies-backend/lib"
 	"net/http"
@@ -19,27 +20,37 @@ func UpdateTokens(c *gin.Context) {
 		return
 	}
 
-	var foundedToken bool = false
-	for _, token := range mockdata.RefreshTokenStore {
-		if token == requestBody.RefreshToken {
-			foundedToken = true
-			break
-		}
-	}
+	claims, err := lib.ParseToken(requestBody.RefreshToken, configs.TOP_SECRET)
 
-	if !foundedToken {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token not found"})
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.Abort()
 		return
 	}
 
-	mockdata.TokenRefreshCounter++
-	newAccessToken,newRefreshToken:=lib.GenerateTokens(mockdata.TokenRefreshCounter)
+	currentUser, userFound:= mockdata.UsersByLogin[claims.Login]
+
+	if !userFound || currentUser.RefreshToken != requestBody.RefreshToken {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.Abort()
+		return
+	}
+
+	newAccessToken,newRefreshToken, err:= lib.GenerateTokens(claims.ID,claims.Login,claims.Role, configs.TOP_SECRET)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token generation failed"})
+		c.Abort()
+		return
+	}
+
+	currentUser.RefreshToken = newRefreshToken
+	currentUser.AccessToken = newAccessToken
+
+	mockdata.UsersByLogin[claims.Login] = currentUser
 
 
-	mockdata.RefreshTokenStore = append(mockdata.RefreshTokenStore, newRefreshToken)
-	mockdata.AccessTokenStore = append(mockdata.AccessTokenStore, newAccessToken)
-
-	fmt.Println(mockdata.RefreshTokenStore)
+	fmt.Println("userByLogin", mockdata.UsersByLogin[claims.Login])
 
 	c.JSON(http.StatusOK, gin.H{
 		"accessToken":  newAccessToken,

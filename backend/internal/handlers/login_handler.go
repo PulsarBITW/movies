@@ -1,8 +1,8 @@
 package handlers
 
 import (
+	"movies-backend/configs"
 	"movies-backend/internal/mockdata"
-	"movies-backend/internal/models"
 	"movies-backend/lib"
 	"net/http"
 
@@ -10,45 +10,53 @@ import (
 )
 
 func LoginHandler(c *gin.Context) {
-	var creds struct {
+	var credentials struct {
 		Login    string `json:"login"`
 		Password string `json:"password"`
 	}
 
-	if err := c.ShouldBindJSON(&creds); err != nil {
+	if err := c.ShouldBindJSON(&credentials); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
 
-	var user *models.User
-	for _, u := range mockdata.Users {
-		if u.Login == creds.Login && u.Password == creds.Password {
-			user = &u
-			break
-		}
-	}
+	currentUser, userFound:= mockdata.UsersByLogin[credentials.Login]
 
-	if user == nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid credentials"})
+	if !userFound {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid login"})
 		return
 	}
 
-	mockdata.TokenRefreshCounter++
-	accessToken, refreshToken := lib.GenerateTokens(mockdata.TokenRefreshCounter)
+	if currentUser.Password != credentials.Password {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid password"})
+		return
+	}
 
-	mockdata.RefreshTokenStore = append(mockdata.RefreshTokenStore, refreshToken)
-	mockdata.AccessTokenStore = append(mockdata.AccessTokenStore, accessToken)
+	_,accessTokenError := lib.ParseToken(currentUser.AccessToken, configs.TOP_SECRET)
+	_,refreshTokenError := lib.ParseToken(currentUser.RefreshToken, configs.TOP_SECRET)
 
+	 if (accessTokenError != nil || refreshTokenError != nil) {
+			newAccessToken,newRefreshToken, err:= lib.GenerateTokens(currentUser.ID,currentUser.Login,currentUser.Role, configs.TOP_SECRET)
 
+			if err != nil {
+				c.JSON(http.StatusUnauthorized, gin.H{"error": "Token generation failed"})
+				return
+			}
+	
+			currentUser.RefreshToken = newRefreshToken
+			currentUser.AccessToken = newAccessToken
+	
+			mockdata.UsersByLogin[currentUser.Login] = currentUser
+	 }
 
 	c.JSON(http.StatusOK, gin.H{
 		"user": gin.H{
-			"id":    user.ID,
-			"login": user.Login,
-			"name":  user.Name,
-			"role":  user.Role,
+			"id":    currentUser.ID,
+			"login": currentUser.Login,
+			"name":  currentUser.Name,
+			"role":  currentUser.Role,
 		},
-		"accessToken":  accessToken,
-		"refreshToken": refreshToken,
+		"accessToken":  currentUser.AccessToken,
+		"refreshToken": currentUser.RefreshToken,
 	})
 }

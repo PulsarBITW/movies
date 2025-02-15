@@ -10,6 +10,8 @@ type ServerConfig struct {
 	AllowOrigins   []string
 }
 
+var TOP_SECRET = []byte("top-secret")
+
 func GetConfig() *Config {
 	var (
 		ServerPort     = ":8080"
