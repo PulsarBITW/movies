@@ -1,7 +1,7 @@
-import {Domain, sample, scopeBind} from 'effector';
+import {attach, Domain, sample, scopeBind} from 'effector';
 
 import {User} from '@shared/types/currentUser';
-import {appStarted, rootDomain} from '@shared/config';
+import {appStarted, NavigationGate, rootDomain} from '@shared/config';
 import {currentUserModel} from '@entities/currentUser';
 import {
   invalidToken,
@@ -11,11 +11,11 @@ import {
 } from '@shared/api';
 
 export function createAuthModel({domain}: {domain: Domain}) {
-  const login = domain.createEvent<{credentials: Credentials; redirect?: () => void}>('login');
+  const login = domain.createEvent<Credentials>('login');
 
-  const loginFx = domain.createEffect({
-    name: 'loginFx',
-    handler: async ({credentials, redirect}: {credentials: Credentials; redirect?: () => void}) => {
+  const loginFx = attach({
+    source: NavigationGate.state,
+    effect: async (navigation, credentials: Credentials) => {
       const boundCurrentUserChanged = scopeBind(currentUserModel.currentUserChanged);
 
       const {accessToken, refreshToken, user} = await baseAuthentication(credentials);
@@ -27,7 +27,7 @@ export function createAuthModel({domain}: {domain: Domain}) {
         refreshToken,
       });
 
-      redirect?.();
+      navigation.navigate('/');
     },
   });
 
@@ -58,7 +58,7 @@ export function createAuthModel({domain}: {domain: Domain}) {
   sample({
     clock: appStarted,
     filter: () => !!AuthTokensStorageController.validatedAccessToken,
-    fn: () => ({credentials: {login: 'test', password: 'test'}}),
+    fn: (): Credentials => ({login: 'test', password: 'test'}),
     target: loginFx,
   });
 

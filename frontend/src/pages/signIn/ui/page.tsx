@@ -1,7 +1,6 @@
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {z, ZodType} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useNavigate} from 'react-router-dom';
 import {useUnit} from 'effector-react';
 
 import {Button} from '@shared/ui';
@@ -24,14 +23,13 @@ export const UserSchema: ZodType<IFormInput> = z.object({
 
 export const SignIn = () => {
   const login = useUnit(authModel.login);
-  const navigate = useNavigate();
 
   const {register, handleSubmit} = useForm<IFormInput>({
     resolver: zodResolver(UserSchema),
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (credentials) => {
-    login({credentials, redirect: () => navigate('/')});
+    login(credentials);
   };
 
   return (
