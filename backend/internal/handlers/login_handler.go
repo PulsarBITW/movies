@@ -64,7 +64,7 @@ func LoginByCredentialsHandler(c *gin.Context) {
 
 func LoginByTokenHandler(c *gin.Context) {
 	var requestBody struct {
-		AccessToken string `json:"accessToken" binding:"required"`
+		RefreshToken string `json:"refreshToken" binding:"required"`
 	}
 
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
@@ -72,7 +72,7 @@ func LoginByTokenHandler(c *gin.Context) {
 		return
 	}
 
-	claims, err := lib.ParseToken(requestBody.AccessToken, configs.TOP_SECRET)
+	claims, err := lib.ParseToken(requestBody.RefreshToken, configs.TOP_SECRET)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
@@ -85,7 +85,7 @@ func LoginByTokenHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}
-	
+
 	_,accessTokenError := lib.ParseToken(currentUser.AccessToken, configs.TOP_SECRET)
 	_,refreshTokenError := lib.ParseToken(currentUser.RefreshToken, configs.TOP_SECRET)
 

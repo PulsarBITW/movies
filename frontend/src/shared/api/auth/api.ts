@@ -11,6 +11,8 @@ export const baseAuthenticationByCredentials = async (
   return (await apiClient.post('/api/login/credentials', credentials)).data;
 };
 
-export const baseAuthenticationByToken = async (accessToken: string): Promise<LoginResponseDto> => {
-  return (await apiClient.post('/api/login/token', {accessToken})).data;
+export const baseAuthenticationByToken = async (
+  refreshToken: string,
+): Promise<LoginResponseDto> => {
+  return (await apiClient.post('/api/login/token', {refreshToken})).data;
 };

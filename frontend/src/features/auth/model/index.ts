@@ -16,9 +16,10 @@ export function createAuthModel({domain}: {domain: Domain}) {
   const loginByTokenFx = domain.createEffect({
     handler: async () => {
       const boundCurrentUserChanged = scopeBind(currentUserModel.currentUserChanged);
-      const currentAccessToken = AuthTokensStorageController.validatedAccessToken;
-      if (!currentAccessToken) throw new Error('loginByTokenFx failed');
-      const {accessToken, refreshToken, user} = await baseAuthenticationByToken(currentAccessToken);
+      const currentRefreshToken = AuthTokensStorageController.validatedRefreshToken;
+      if (!currentRefreshToken) throw new Error('loginByTokenFx failed');
+      const {accessToken, refreshToken, user} =
+        await baseAuthenticationByToken(currentRefreshToken);
       boundCurrentUserChanged(user);
 
       AuthTokensStorageController.setAuthTokens({
