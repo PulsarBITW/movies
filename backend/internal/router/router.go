@@ -40,7 +40,8 @@ func CreateRouter(appConfig *config.Config) *Router {
     ginEngine.GET("/api/media", handlers.GetMediaList)
     ginEngine.GET("/api/films", handlers.GetFilms)
     ginEngine.POST("/api/refresh-tokens", handlers.UpdateTokens)
-    ginEngine.POST("/api/login", handlers.LoginHandler)
+    ginEngine.POST("/api/login/credentials", handlers.LoginByCredentialsHandler)
+    ginEngine.POST("/api/login/token", handlers.LoginByTokenHandler)
 
    
     return &Router{Engine: ginEngine}

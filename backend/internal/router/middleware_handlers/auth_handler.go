@@ -13,7 +13,7 @@ import (
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		 fullPath := c.FullPath()
-		if fullPath == "/api/refresh-tokens" || fullPath == "/api/login"{
+		if fullPath == "/api/refresh-tokens" || fullPath == "/api/login/credentials" || fullPath == "/api/login/token"{
 			c.Next()
 			return
 		}
