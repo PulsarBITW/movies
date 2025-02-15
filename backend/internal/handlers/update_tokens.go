@@ -24,7 +24,6 @@ func UpdateTokens(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-		c.Abort()
 		return
 	}
 
@@ -32,7 +31,6 @@ func UpdateTokens(c *gin.Context) {
 
 	if !userFound || currentUser.RefreshToken != requestBody.RefreshToken {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-		c.Abort()
 		return
 	}
 
@@ -40,7 +38,6 @@ func UpdateTokens(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token generation failed"})
-		c.Abort()
 		return
 	}
 

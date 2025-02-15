@@ -7,6 +7,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+// #TODO: Use different generation strategies for access and refresh tokens
+
 func GenerateTokens(id int, login string, role string, jwtSecret []byte) (accessToken string, refreshToken string,err error) {
 	accessClaims := jwt.MapClaims{
 		"id":    id,
