@@ -16,3 +16,9 @@ export const baseAuthenticationByToken = async (
 ): Promise<LoginResponseDto> => {
   return (await apiClient.post('/api/login/token', {refreshToken})).data;
 };
+
+export const baseAuthenticationByGoogle = async (
+  googleToken: string,
+): Promise<LoginResponseDto> => {
+  return (await apiClient.post('/api/login/google', {googleToken})).data;
+};

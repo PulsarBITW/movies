@@ -8,10 +8,22 @@ import {
   baseAuthenticationByCredentials,
   Credentials,
   baseAuthenticationByToken,
+  LoginByGoogleCredentials,
+  baseAuthenticationByGoogle,
 } from '@shared/api';
+import {createGoogleGsiApiModel} from './createGoogleGsiApiModel';
 
 export function createAuthModel({domain}: {domain: Domain}) {
-  const loginByCredentials = domain.createEvent<Credentials>('login');
+  const loginByCredentials = domain.createEvent<Credentials>('loginByCredentials');
+  const loginByGoogle = domain.createEvent<LoginByGoogleCredentials>('loginByGoogle');
+
+  const logout = domain.createEvent('logout');
+  const logoutFxTriggers = [invalidToken, logout];
+
+  const $isAuth = currentUserModel.$currentUser.map<boolean>((currentUser) => Boolean(currentUser));
+
+  const {$isGsiGoogleApiLoaded, loadGsiGoogleApiFx, gsiButtonCliked} =
+    createGoogleGsiApiModel(loginByGoogle);
 
   const loginByTokenFx = domain.createEffect({
     handler: async () => {
@@ -45,9 +57,23 @@ export function createAuthModel({domain}: {domain: Domain}) {
     },
   });
 
-  const $isAuth = currentUserModel.$currentUser.map<boolean>((currentUser) => Boolean(currentUser));
+  const loginByGoogleFx = attach({
+    source: NavigationGate.state,
+    effect: async (navigation, credentials: LoginByGoogleCredentials) => {
+      const boundCurrentUserChanged = scopeBind(currentUserModel.currentUserChanged);
+      const {accessToken, refreshToken, user} = await baseAuthenticationByGoogle(
+        credentials.googleToken,
+      );
+      boundCurrentUserChanged(user);
 
-  const logout = domain.createEvent('logout');
+      AuthTokensStorageController.setAuthTokens({
+        accessToken,
+        refreshToken,
+      });
+
+      navigation.navigate('/');
+    },
+  });
 
   const logoutFx = domain.createEffect({
     name: 'logoutFx',
@@ -57,7 +83,10 @@ export function createAuthModel({domain}: {domain: Domain}) {
     },
   });
 
-  const logoutFxTriggers = [invalidToken, logout];
+  sample({
+    clock: appStarted,
+    target: [loginByTokenFx, loadGsiGoogleApiFx],
+  });
 
   sample({
     clock: logoutFxTriggers,
@@ -70,11 +99,18 @@ export function createAuthModel({domain}: {domain: Domain}) {
   });
 
   sample({
-    clock: appStarted,
-    target: loginByTokenFx,
+    clock: loginByGoogle,
+    target: loginByGoogleFx,
   });
 
-  return {logout, loginByCredentials, $isAuth};
+  return {
+    logout,
+    loginByCredentials,
+    loginByGoogle,
+    $isAuth,
+    $isGsiGoogleApiLoaded,
+    gsiButtonCliked,
+  };
 }
 
 const authDomain = rootDomain.createDomain('authDomain');

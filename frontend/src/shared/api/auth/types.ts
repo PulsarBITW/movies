@@ -13,3 +13,7 @@ export type Credentials = {
   login: string;
   password: string;
 };
+
+export type LoginByGoogleCredentials = {
+  googleToken: string;
+};

@@ -12,7 +12,9 @@ import {NavigationConnecter} from './NavigationConnecter';
 const App = () => {
   return (
     <>
+      {/* Connect API */}
       <NavigationConnecter />
+      {/*  */}
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<MainPage />} />

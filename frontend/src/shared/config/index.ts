@@ -2,6 +2,9 @@ import {debug} from 'patronum';
 import {createDomain, fork} from 'effector';
 import {createGate} from 'effector-react';
 import {NavigateFunction, SetURLSearchParams} from 'react-router-dom';
+import {ENV} from './env';
+
+export {ENV} from './env';
 
 export type NavigationGateProps = {
   searchParams: URLSearchParams;
@@ -19,7 +22,7 @@ export const NavigationGate = createGate<NavigationGateProps>('NavigationGate');
 export const appStarted = rootDomain.createEvent('appStarted');
 export const globalReset = rootDomain.createEvent('globalReset');
 
-if (process.env.NODE_ENV === 'development') {
+if (ENV.IS_DEV) {
   debug.registerScope(appScope, {name: 'appScope'});
 }
 
