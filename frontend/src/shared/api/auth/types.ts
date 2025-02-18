@@ -1,4 +1,9 @@
-import {User} from '@shared/types/currentUser';
+export interface User {
+  id: number; // string
+  login: string;
+  name: string;
+  role: string;
+}
 
 export type AuthTokensData = {
   refreshToken: string;

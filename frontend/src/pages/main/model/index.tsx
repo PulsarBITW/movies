@@ -2,7 +2,7 @@ import {createEffect, createEvent, sample} from 'effector';
 import {createGate} from 'effector-react';
 
 import {rootDomain} from '@shared/config';
-import {MediaItem} from '@shared/types/media';
+import {MediaItem} from '@shared/api/media/types';
 import {baseFetchMovies, baseFetchMediaList} from '@shared/api';
 
 function createMainPageModel() {

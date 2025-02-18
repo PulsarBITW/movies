@@ -1,7 +1,7 @@
 import {z} from 'zod';
 
 import {ConfigSchema} from '@shared/lib/searchParams/types';
-import {safeDeserializeJson} from '@shared/lib/utils';
+import {safeDeserializeJson} from '@shared/lib/json';
 
 export enum RegTypeEnum {
   unknown = 'unknown',

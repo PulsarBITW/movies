@@ -1,7 +1,7 @@
 import {Domain} from 'effector';
 
 import {rootDomain} from '@shared/config';
-import {User} from '@shared/types/currentUser';
+import {User} from '@shared/api';
 
 type CreateCurrentUserModelParams = {
   domain: Domain;

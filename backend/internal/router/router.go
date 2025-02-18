@@ -42,6 +42,7 @@ func CreateRouter(appConfig *config.Config) *Router {
     ginEngine.POST("/api/refresh-tokens", handlers.UpdateTokens)
     ginEngine.POST("/api/login/credentials", handlers.LoginByCredentialsHandler)
     ginEngine.POST("/api/login/token", handlers.LoginByTokenHandler)
+    ginEngine.POST("/api/login/google", handlers.LoginByGoogleHandler)
 
    
     return &Router{Engine: ginEngine}

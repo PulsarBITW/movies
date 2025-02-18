@@ -1,7 +1,9 @@
 package lib
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -71,4 +73,38 @@ func ParseToken(tokenString string, jwtSecret []byte) (*Claims, error) {
 	}
 
 	return claims, nil
+}
+
+
+type GoogleClaims struct {
+    Iss            string `json:"iss"`             // Должно быть "https://accounts.google.com"
+    Azp           string `json:"azp"`             // Client ID приложения
+    Aud           string `json:"aud"`             // Должно совпадать с вашим CLIENT_ID
+    Sub           string `json:"sub"`             // Уникальный идентификатор пользователя
+    Email         string `json:"email"`           // Email пользователя
+    EmailVerified bool   `json:"email_verified"`  // Подтвержден ли email
+    Nbf           int64  `json:"nbf"`             // Not Before - время, раньше которого токен невалиден
+    Name          string `json:"name"`            // Имя пользователя
+    Picture       string `json:"picture"`         // URL аватарки пользователя
+    GivenName     string `json:"given_name"`      // Имя
+    FamilyName    string `json:"family_name"`     // Фамилия
+    Iat           int64  `json:"iat"`             // Issued At - время выпуска токена (Unix timestamp)
+    Exp           int64  `json:"exp"`             // Expiration - время истечения токена (Unix timestamp)
+    Jti           string `json:"jti"`             // Уникальный идентификатор токена
+}
+
+func ParseGoogleOAuth2Token(tokenString string) (*GoogleClaims, error) {
+    token, _, err := new(jwt.Parser).ParseUnverified(tokenString, jwt.MapClaims{})
+    if err != nil {
+        return nil, err
+    }
+
+    if claims, ok := token.Claims.(jwt.MapClaims); ok {
+        jsonData, _ := json.Marshal(claims)
+        var googleClaims GoogleClaims
+        json.Unmarshal(jsonData, &googleClaims)
+        return &googleClaims, nil
+    }
+
+    return nil, fmt.Errorf("invalid token")
 }

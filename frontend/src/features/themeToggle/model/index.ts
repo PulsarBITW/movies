@@ -5,7 +5,7 @@ import {persist} from 'effector-storage/local';
 import {AppTheme} from '@shared/types';
 import {appStarted, rootDomain} from '@shared/config';
 import {LocalStorageKeys, ThemeEnum} from '@shared/config';
-import {safeDeserializeJson} from '@shared/lib/utils';
+import {safeDeserializeJson} from '@shared/lib/json';
 
 function createThemeModel(domain: Domain) {
   const checkIsDarkThemePreferred = (): boolean => {
