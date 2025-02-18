@@ -2,7 +2,7 @@ import {z} from 'zod';
 import {Domain, sample} from 'effector';
 import {persist} from 'effector-storage/local';
 
-import {AppTheme} from '@shared/types';
+import {AppTheme} from '@shared/config';
 import {appStarted, rootDomain} from '@shared/config';
 import {LocalStorageKeys, ThemeEnum} from '@shared/config';
 import {safeDeserializeJson} from '@shared/lib/json';
