@@ -19,7 +19,7 @@ func CreateRouter(appConfig *config.Config) *Router {
     // settings
 	err := ginEngine.SetTrustedProxies(nil)
 	if err != nil {
-		panic("При установки доверенных прокси произошла ошибка: " + err.Error())
+		panic(err.Error())
 	}
 
     // middlewares
@@ -34,11 +34,18 @@ func CreateRouter(appConfig *config.Config) *Router {
 	ginEngine.Use(gin.Recovery())
 	ginEngine.Use(middlewares.LoggerIP())
     ginEngine.Use(middlewares.ErrorHandler()) 
+    ginEngine.Use(middlewares.AuthMiddleware()) 
 
     // api handlers
     ginEngine.GET("/api/media", handlers.GetMediaList)
     ginEngine.GET("/api/films", handlers.GetFilms)
+    ginEngine.POST("/api/refresh-tokens", handlers.UpdateTokens)
+    ginEngine.POST("/api/login/credentials", handlers.LoginByCredentialsHandler)
+    ginEngine.POST("/api/login/token", handlers.LoginByTokenHandler)
+    ginEngine.POST("/api/login/google", handlers.LoginByGoogleHandler)
 
    
     return &Router{Engine: ginEngine}
 }
+
+

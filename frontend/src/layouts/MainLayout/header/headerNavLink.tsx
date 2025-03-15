@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import {NavLink, NavLinkProps} from 'react-router-dom';
 
-import {cn} from '@shared/lib/utils';
+import {cn} from '@shared/lib/className';
 
 type HeaderNavLinkProps = Omit<NavLinkProps, 'children'> & {
   icon: ReactNode;

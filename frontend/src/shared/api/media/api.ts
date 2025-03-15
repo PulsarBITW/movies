@@ -1,6 +1,6 @@
 import {AxiosRequestConfig} from 'axios';
 
-import {MediaItem} from '@shared/types/media';
+import {MediaItem} from './types';
 import {apiClient} from '../apiClient';
 
 export const baseFetchMediaList = async (

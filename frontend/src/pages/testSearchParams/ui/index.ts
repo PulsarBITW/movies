@@ -1,0 +1,1 @@
+export {TestSearchParamsPage} from './page';

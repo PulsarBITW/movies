@@ -1,0 +1,1 @@
+export {currentUserModel} from './currentUserModel';

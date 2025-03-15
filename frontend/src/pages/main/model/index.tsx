@@ -1,8 +1,9 @@
-import {createEffect, sample} from 'effector';
+import {createEffect, createEvent, sample} from 'effector';
 import {createGate} from 'effector-react';
 
-import {rootDomain} from '@shared/effectorRootEntities';
-import {MediaItem} from '@shared/types/media';
+import {rootDomain} from '@shared/config';
+import {MediaItem} from '@shared/api/media/types';
+import {baseFetchMovies, baseFetchMediaList} from '@shared/api';
 
 function createMainPageModel() {
   const mainPageDomain = rootDomain.createDomain('mainPageDomain');
@@ -100,18 +101,34 @@ function createMainPageModel() {
     ];
   };
 
-  const fetchMediaListFx = createEffect({name: '', handler: mockRequest});
+  const req = async () => {
+    try {
+      return await baseFetchMediaList();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      return await mockRequest();
+    }
+  };
+
+  const fetchMediaListFx = createEffect({name: '', handler: req});
+
+  const fetchMoviesListFx = createEffect({name: 'moviesFx', handler: baseFetchMovies});
 
   const $mediaList = mainPageDomain.createStore<MediaItem[]>([]);
 
   $mediaList.on(fetchMediaListFx.doneData, (_, response) => response);
 
+  const logPending = createEvent();
+
   sample({
     clock: MainPageGate.open,
-    target: fetchMediaListFx,
+    fn: () => {},
+    target: [fetchMediaListFx, fetchMoviesListFx],
   });
 
-  return {$mediaList, MainPageGate};
+  return {$mediaList, MainPageGate, fetchMediaListFx, fetchMoviesListFx, logPending};
 }
 
-export const {$mediaList, MainPageGate} = createMainPageModel();
+export const {$mediaList, MainPageGate, fetchMediaListFx, fetchMoviesListFx, logPending} =
+  createMainPageModel();

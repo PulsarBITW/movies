@@ -1,6 +1,7 @@
 import path from 'path';
 import webpack, {EnvironmentPlugin, ModuleOptions, RuleSetRule} from 'webpack';
 import type {Configuration as DevServerConfiguration} from 'webpack-dev-server';
+import Dotenv from 'dotenv-webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
@@ -23,6 +24,7 @@ interface ConfigPaths {
   public: string;
   src: string;
   favicon: string;
+  outputPublicPath: string;
 }
 type ConfigMode = webpack.Configuration['mode'];
 
@@ -43,6 +45,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
     entry: path.resolve(__dirname, 'src', 'index.ts'),
     output: path.resolve(__dirname, 'build'),
     favicon: path.resolve(__dirname, 'public', 'Favicon.ico'),
+    outputPublicPath: '/',
   };
 
   const configOptions: ConfigOptions = {
@@ -60,6 +63,7 @@ export default (env: EnvironmentVariables): webpack.Configuration => {
     entry: configOptions.paths.entry,
     output: {
       path: configOptions.paths.output,
+      publicPath: configOptions.paths.outputPublicPath,
       filename: '[name].[contenthash].js',
       clean: true,
     },
@@ -95,11 +99,14 @@ const getPlugins = (configOptions: ConfigOptions): webpack.Configuration['plugin
 
   const environmentPlugin = new EnvironmentPlugin();
 
+  const dotenvPlugin = new Dotenv({path: './.env.local'});
+
   const miniCssExtractPlugin = new MiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
   });
 
+  plugins.push(dotenvPlugin);
   plugins.push(htmlWebpackPlugin);
   plugins.push(environmentPlugin);
   plugins.push(miniCssExtractPlugin);

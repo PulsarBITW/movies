@@ -1,4 +1,4 @@
-import {Film, MediaItem, Series} from '@shared/types/media';
+import {Film, MediaItem, Series} from './types';
 
 export const isFilm = (mediaItem: MediaItem): mediaItem is Film => {
   return mediaItem.type === 'film';

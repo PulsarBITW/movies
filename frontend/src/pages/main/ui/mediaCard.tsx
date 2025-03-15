@@ -1,4 +1,4 @@
-import {MediaItem} from '@shared/types/media';
+import {MediaItem} from '@shared/api/media/types';
 
 type MediaCardProps = {
   mediaItem: MediaItem;

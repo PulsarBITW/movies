@@ -3,8 +3,8 @@ import {BrowserRouter} from 'react-router-dom';
 import {allSettled} from 'effector';
 import {Provider} from 'effector-react';
 
-import {appScope, appStarted} from '@shared/effectorRootEntities';
-import AppRouting from './routing';
+import {appScope, appStarted} from '@shared/config';
+import App from './routing';
 import './initModules';
 
 const rootHtml = document.getElementById('root');
@@ -19,7 +19,7 @@ if (!rootHtml) {
   reactRoot.render(
     <Provider value={appScope}>
       <BrowserRouter>
-        <AppRouting />
+        <App />
       </BrowserRouter>
     </Provider>,
   );
